@@ -8,5 +8,17 @@
  This project is an extansion and improvement of the [Dynamic Partial Reconfiguration on an IoT device](https://github.com/FlorianMuttenthaler/SocLabPartialReconfigIot) project based on the Digilent ZedBoard.
  
 ## Project structure
-
+ The project is structured as follows:
+ 
+ - hardware_design		# contains the hardware design
+ - petalinux			# contains linux files
+ - android				# contains android files
+ - u-boot				# contains u-boot files
+ - drivers				# contains drivers for custom hardware components
+ - bootimage 			# contains built files
+ - prebuilt				# contains prebuilt files ready to use
+ - server				# contains file server
+ - client				# contains andoid app
+ - report				# contains project report
+ 
 ## Project progress
