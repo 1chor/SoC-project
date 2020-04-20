@@ -51,6 +51,6 @@
  - Set boot mode of the board to "SD Boot". Insert SD card to the board.
  - Connect external monitor using HDMI. Please note that HDMI must be connected before board power-on.
  - Connect USB mouse (and optionally USB keyboard) as shown below:
- ![ZCU102 setup](https://github.com/1chor/SoC-project/tree/master/report/images/ZCU102.png)
+ ![ZCU102 setup](report/images/ZCU102.png)
  - Power on the board
 
