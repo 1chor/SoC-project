@@ -50,7 +50,8 @@
 ## Running the Build on the Xilinx ZCU102
  - Set boot mode of the board to "SD Boot". Insert SD card to the board.
  - Connect external monitor using HDMI. Please note that HDMI must be connected before board power-on.
- - Connect USB mouse (and optionally USB keyboard) as shown below:
- ![ZCU102 setup](report/images/ZCU102.png | width=500)
+ - Connect USB mouse (and optionally USB keyboard) as shown below.
  - Power on the board
-
+ <p align="center">
+ <img src="./report/images/ZCU102.png" width="600">
+ </p>
