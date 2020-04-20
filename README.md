@@ -10,6 +10,7 @@
 ## Project structure
  The project is structured as follows:
  
+ ```
  .
  ├── hardware_design		# contains the hardware design
  ├── petalinux				# contains linux files
@@ -21,5 +22,6 @@
  ├── server					# contains file server
  ├── client					# contains andoid app
  └── report					# contains project report
+ ```
  
 ## Project progress
