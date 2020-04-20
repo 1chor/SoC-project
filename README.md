@@ -16,15 +16,15 @@
  ```
  .
  ├── hardware_design		# contains the hardware design
- ├── petalinux		# contains linux files
- ├── android		# contains android files
- ├── u-boot		# contains u-boot files
- ├── drivers		# contains drivers for custom hardware components
- ├── bootimage		# contains built files
- ├── prebuilt		# contains prebuilt files ready to use
- ├── server		# contains file server
- ├── client		# contains andoid app
- └── report		# contains project report
+ ├── petalinux			# contains linux files
+ ├── android			# contains android files
+ ├── u-boot			# contains u-boot files
+ ├── drivers			# contains drivers for custom hardware components
+ ├── bootimage			# contains built files
+ ├── prebuilt			# contains prebuilt files ready to use
+ ├── server			# contains file server
+ ├── client			# contains andoid app
+ └── report			# contains project report
  ```
  
 ## Project progress
@@ -37,8 +37,8 @@
  
 ## Preparing SD Card
  Run the following script to prepare bootable SD card. 
- Use path to your SD card instead of /dev/mmcblk0. 
- Use zcu102 as a second argument to specify which product subfolder in out/target/product/ to use.
+ Use path to your SD card instead of `/dev/mmcblk0`. 
+ Use zcu102 as a second argument to specify which product subfolder in `out/target/product/` to use.
 
  ```shell
  $ cd WORKING_DIRECTORY
@@ -51,6 +51,6 @@
  - Set boot mode of the board to "SD Boot". Insert SD card to the board.
  - Connect external monitor using HDMI. Please note that HDMI must be connected before board power-on.
  - Connect USB mouse (and optionally USB keyboard) as shown below:
- ![ZCU102 setup](https://github.com/1chor/SoC-project/report/images/ZCU102.png)
+ ![ZCU102 setup](https://github.com/1chor/SoC-project/tree/master/report/images/ZCU102.png)
  - Power on the board
 
