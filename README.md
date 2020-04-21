@@ -10,6 +10,23 @@
  
  Android 8 for Xilinx Zynq UltraScale+ MPSoC is provided by [Mentor Embedded](https://www.mentor.com/embedded-software/semiconductors/xilinx/ultrascale) [Getting Started with Android 8 v2018.1 for Xilinx Zynq UltraScale MPSoC](https://github.com/MentorEmbedded/mpsoc-manifest/wiki/Getting-Started-with-Android-8-v2018.1-for-Xilinx-Zynq-UltraScale--MPSoC). 
  
+## Initializing Build Environment
+
+### Installing JDK
+  Please check [AOSP: Installing the JDK](https://source.android.com/setup/build/initializing#installing-the-jdk) and [AOSP: JDK Requirements](https://source.android.com/setup/build/requirements#latest-version) for the detailed instructions to install proper version of the JDK. Please use **OpenJDK 8** to build **Android 8**. On Ubuntu 18.04 it can be installed with:
+
+  `$ sudo apt-get install openjdk-8-jdk`
+
+### Installing packages
+  Please follow [AOSP: Installing Required Packages](https://source.android.com/setup/build/initializing#installing-required-packages-ubuntu-1404) to initialize build environment depending on your build host. Please note that builds are tested with 64-bit Ubuntu LTS 18.04.4 hosts. For the Ubuntu LTS 148.04.4 the following packages are required:
+
+```shell
+  $ sudo apt-get install git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc unzip
+```
+  In addition to the packages from the AOSP guide, please install the following for the SD card initialization scripts:
+
+  `$ sudo apt-get install dosfstools e2fsprogs parted`
+
 ## Project structure
  The project is structured as follows:
  
@@ -22,7 +39,7 @@
  ├── drivers			# contains drivers for custom hardware components
  ├── bootimage			# contains built files
  ├── prebuilt			# contains prebuilt files ready to use
- ├── server			# contains file server
+ ├── server			# contains file server   
  ├── client			# contains andoid app
  └── report			# contains project report
  ```
