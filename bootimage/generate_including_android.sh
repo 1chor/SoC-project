@@ -38,3 +38,12 @@ if [ ! -d android ]; then
 	
 fi
 
+pretty_header "Making android"
+
+cd android
+
+source build/envsetup.sh
+
+lunch zcu102-eng
+
+make -j
