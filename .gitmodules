@@ -1,12 +1,16 @@
 [submodule "arm-trusted-firmware"]
 	path = arm-trusted-firmware
 	url = https://github.com/Xilinx/arm-trusted-firmware
+	ignore = untracked
 [submodule "mpsoc-linux-xlnx"]
 	path = mpsoc-linux-xlnx
 	url = https://github.com/MentorEmbedded/mpsoc-linux-xlnx
+	ignore = untracked
 [submodule "mpsoc-u-boot-xlnx"]
 	path = mpsoc-u-boot-xlnx
 	url = https://github.com/MentorEmbedded/mpsoc-u-boot-xlnx
+	ignore = untracked
 [submodule "device-tree-xlnx"]
 	path = device-tree-xlnx
 	url = https://github.com/Xilinx/device-tree-xlnx
+	ignore = untracked
