@@ -25,7 +25,7 @@ cd mpsoc-linux-xlnx
 make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- xilinx_zynqmp_android_defconfig
 
 #build
-make -j
+make -j4
 cp arch/arm64/boot/Image ../bootimage/ #rename necessary?? "kernel"
 
 cd ..
@@ -57,7 +57,7 @@ pretty_header "Building u-boot"
 cd mpsoc-u-boot-xlnx
 make CROSS_COMPILE=aarch64-linux-gnu- xilinx_zynqmp_zcu102_rev1_0_defconfig
 make CROSS_COMPILE=aarch64-linux-gnu-
-#cp u-boot ../bootimage/u-boot.elf
+cp u-boot.elf ../bootimage/u-boot.elf
 cd ..
 
 ########################################################################
@@ -73,8 +73,10 @@ cd ..
 
 pretty_header "Building ARM Trusted Firmware"
 
+cd arm-trusted-firmware
 make PLAT=zynqmp RESET_TO_BL31=1
-#cp
+cp build/zynqmp/release/bl31/bl31.elf ../bootimage/bl31.elf
+cd ..
 
 ########################################################################
 
