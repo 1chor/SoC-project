@@ -4,3 +4,6 @@
 [submodule "mpsoc-linux-xlnx"]
 	path = mpsoc-linux-xlnx
 	url = https://github.com/MentorEmbedded/mpsoc-linux-xlnx
+[submodule "mpsoc-u-boot-xlnx"]
+	path = mpsoc-u-boot-xlnx
+	url = https://github.com/MentorEmbedded/mpsoc-u-boot-xlnx
