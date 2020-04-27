@@ -1,3 +1,6 @@
 [submodule "arm-trusted-firmware"]
 	path = arm-trusted-firmware
 	url = https://github.com/Xilinx/arm-trusted-firmware
+[submodule "mpsoc-linux-xlnx"]
+	path = mpsoc-linux-xlnx
+	url = https://github.com/MentorEmbedded/mpsoc-linux-xlnx
