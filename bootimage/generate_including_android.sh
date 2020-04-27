@@ -6,7 +6,7 @@ function pretty_header() {
 		echo "$edge"
 }
 
-#sh generate_without_android.sh
+sh generate_without_android.sh
 
 cd ..
 
