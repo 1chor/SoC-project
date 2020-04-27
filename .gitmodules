@@ -1,0 +1,3 @@
+[submodule "arm-trusted-firmware"]
+	path = arm-trusted-firmware
+	url = https://github.com/Xilinx/arm-trusted-firmware
