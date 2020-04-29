@@ -35,7 +35,7 @@
 #*****************************************************************************************
 
 # Set the reference directory for source file relative paths (by default the value is script directory path)
-set origin_dir "."
+set origin_dir [file dirname [info script]]
 
 # Use origin directory path location variable, if specified in the tcl shell
 if { [info exists ::origin_dir_loc] } {
@@ -102,7 +102,7 @@ if { $::argc > 0 } {
 set orig_proj_dir "[file normalize "$origin_dir/../"]"
 
 # Create project
-create_project ${_xil_proj_name_} ./${_xil_proj_name_} -part xczu9eg-ffvb1156-2-e
+create_project ${_xil_proj_name_} $orig_proj_dir -part xczu9eg-ffvb1156-2-e
 
 # Set the directory path for the new project
 set proj_dir [get_property directory [current_project]]
@@ -110,7 +110,7 @@ set proj_dir [get_property directory [current_project]]
 # Set project properties
 set obj [current_project]
 set_property -name "board_part" -value "xilinx.com:zcu102:part0:3.3" -objects $obj
-set_property -name "board_part_repo_paths" -value "/home/soc/.Xilinx/Vivado/2019.1/xhub/board_store" -objects $obj
+set_property -name "board_part_repo_paths" -value [get_property LOCAL_ROOT_DIR [xhub::get_xstores xilinx_board_store]] -objects $obj
 set_property -name "default_lib" -value "xil_defaultlib" -objects $obj
 set_property -name "dsa.accelerator_binary_content" -value "bitstream" -objects $obj
 set_property -name "dsa.accelerator_binary_format" -value "xclbin2" -objects $obj
