@@ -1,3 +1,8 @@
+#########
+#Exclude .gitignore
+#########
+!.gitignore
+
 repo
 android
 bootimage
