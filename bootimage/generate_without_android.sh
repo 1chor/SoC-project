@@ -67,17 +67,42 @@ cd ..
 ########################################################################
 
 #pretty_header "Compiling device tree"
-#xilinx tool xsct
+cd hardware_design/vivado/soc_project.sdk/device_tree
+#start SDK?
+
+#pre-processing device tree sources
+gcc -I . -E -nostdinc -undef -D_DTS__ -x assembler-with-cpp -o system.dts system-top.dts
+
+#compiling a device tree blob
+cd ../../../../mpsoc-linux-xlnx
+./scripts/dtc/dtc -I dts -O dtb -o ../bootimage/devicetree.dtb ../hardware_design/vivado/soc_project.sdk/device_tree/system.dts
+cd ..
 
 ########################################################################
 
 pretty_header "Building ARM Trusted Firmware"
 
 cd arm-trusted-firmware
-make PLAT=zynqmp RESET_TO_BL31=1
+make PLAT=zynqmp bl31
 cp build/zynqmp/release/bl31/bl31.elf ../bootimage/bl31.elf
 cd ..
 
 ########################################################################
 
+#pretty_header "Creating zcu102.bif"
+
+cd bootimage
+echo "the_ROM_image:" > zcu102.bif
+echo "{" >> zcu102.bif
+echo -e "\t[destination_cpu=a53-0, bootloader] /media/soc/Volume/SoC-project/hardware_design/vivado/soc_project.sdk/FSBL/Debug/FSBL.elf" >> zcu102.bif
+echo -e "\t[pmufw_image] /media/soc/Volume/SoC-project/hardware_design/vivado/soc_project.sdk/pmufw/Debug/pmufw.elf" >> zcu102.bif
+echo -e "\t[destination_device = pl] /media/soc/Volume/SoC-project/hardware_design/vivado/soc_project.sdk/zcu102_wrapper.bit" >> zcu102.bif
+echo -e "\t[destination_cpu=a53-0, exception_level=el-3, trustzone] /media/soc/Volume/SoC-project/bootimage/bl31.elf" >> zcu102.bif
+echo -e "\t[destination_cpu = a53-0, exception_level=el-2] /media/soc/Volume/SoC-project/bootimage/u-boot.elf" >> zcu102.bif
+echo "}" >> zcu102.bif
+cd ..
+
+########################################################################
+
 #pretty_header "Generating BOOT.BIN"
+bootgen -arch zynqmp -image bootimage/zcu102.bif -w -o i bootimage/BOOT.BIN
