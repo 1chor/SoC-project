@@ -68,7 +68,7 @@ command -v hsi >/dev/null 2>&1 || depends hsi
 command -v bootgen >/dev/null 2>&1 || depends bootgen
 
 vivado_ver=$(vivado -version |head -1 | cut -d' ' -f2 | cut -c2-)
-if [ "$vivado_ver" != 2018.1 ] ; then
+if [ "$vivado_ver" != 2018.1 ]; then
 	echo_red "Currently installed version: $vivado_ver"
 	echo_red "Vivado version 2018.1 is needed."
 	echo_red "Please make sure the correct version is installed." #check if it works with a newer version >= 2018.1 
@@ -144,6 +144,16 @@ rm -rf hardware_design/soc_project.sdk/
 #pretty_header "Generating Bitstreams"
 
 #echo_green "Generating Bitstreams done"
+
+########################################################################
+
+pretty_header "Exporting hardware design"
+
+cd hardware_design
+vivado -nolog -nojournal -mode batch -source scripts/export_hw.tcl
+cd ..
+
+echo_green "Exporting hardware design done"
 
 ########################################################################
 
