@@ -48,10 +48,11 @@ if [ "$1" == "clean" ]; then
 	#ARM Trusted Firmware"
 	cd arm-trusted-firmware
 	make distclean
+	cd ..
 	
 	#clean-up bootimage
 	cd bootimage
-	rm -f !(*.sh)
+	find . \! -name '*.sh' -delete
 	cd ..
 	
 	echo_green "Cleaning repository done"
@@ -67,7 +68,7 @@ command -v hsi >/dev/null 2>&1 || depends hsi
 command -v bootgen >/dev/null 2>&1 || depends bootgen
 
 vivado_ver=$(vivado -version |head -1 | cut -d' ' -f2 | cut -c2-)
-if [ "$vivado_ver" != v2018.1 ] ; then
+if [ "$vivado_ver" != 2018.1 ] ; then
 	echo_red "Currently installed version: $vivado_ver"
 	echo_red "Vivado version 2018.1 is needed."
 	echo_red "Please make sure the correct version is installed." #check if it works with a newer version >= 2018.1 
