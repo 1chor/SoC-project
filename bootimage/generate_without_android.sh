@@ -32,6 +32,33 @@ echo_green "Fetching Submodules done"
 
 ########################################################################
 
+if [ "$1" == "clean" ]; then
+	pretty_header "Cleaning repository"
+	
+	#Linux Kernel
+	cd mpsoc-linux-xlnx 
+	make distclean
+	cd ..
+	
+	#u-boot
+	cd mpsoc-u-boot-xlnx
+	make distclean
+	cd ..
+	
+	#ARM Trusted Firmware"
+	cd arm-trusted-firmware
+	make distclean
+	
+	#clean-up bootimage
+	cd bootimage
+	rm -f !(*.sh)
+	cd ..
+	
+	echo_green "Cleaning repository done"
+fi
+
+########################################################################
+
 pretty_header "Checking for required Xilinx tools"
 
 command -v vivado >/dev/null 2>&1 || depends vivado
