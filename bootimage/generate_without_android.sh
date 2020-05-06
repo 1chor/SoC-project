@@ -183,11 +183,12 @@ cd hardware_design
 xsdk -batch -source ./scripts/create_devicetree_project.tcl
 
 #pre-processing device tree sources
+cd soc_project.sdk/device-tree
 gcc -I . -E -nostdinc -undef -D_DTS__ -x assembler-with-cpp -o system.dts system-top.dts
 
 #compiling a device tree blob
 cd ../../../mpsoc-linux-xlnx
-./scripts/dtc/dtc -I dts -O dtb -o ../bootimage/zynqmp-zcu102-rev1.0.dtb ../hardware_design/soc_project.sdk/device_tree/system.dts
+./scripts/dtc/dtc -I dts -O dtb -o ../bootimage/zynqmp-zcu102-rev1.0.dtb ../hardware_design/soc_project.sdk/device-tree/system.dts
 cd ..
 
 echo_green "Compiling device tree done"
@@ -210,11 +211,11 @@ pretty_header "Creating zcu102.bif"
 cd bootimage
 echo "the_ROM_image:" > zcu102.bif
 echo "{" >> zcu102.bif
-echo -e "\t[destination_cpu=a53-0, bootloader] ../hardware_design/soc_project.sdk/fsbl/Release/fsbl.elf" >> zcu102.bif
-echo -e "\t[pmufw_image] ../hardware_design/soc_project.sdk/pmufw/Release/pmufw.elf" >> zcu102.bif
-echo -e "\t[destination_device = pl] ../hardware_design/soc_project.sdk/zcu102_wrapper.bit" >> zcu102.bif
-echo -e "\t[destination_cpu=a53-0, exception_level=el-3, trustzone] ./bl31.elf" >> zcu102.bif
-echo -e "\t[destination_cpu = a53-0, exception_level=el-2] ./u-boot.elf" >> zcu102.bif
+echo -e "\t[destination_cpu=a53-0, bootloader] hardware_design/soc_project.sdk/fsbl/Release/fsbl.elf" >> zcu102.bif
+echo -e "\t[pmufw_image] hardware_design/soc_project.sdk/pmufw/Release/pmufw.elf" >> zcu102.bif
+echo -e "\t[destination_device = pl] hardware_design/soc_project.sdk/zcu102_wrapper.bit" >> zcu102.bif
+echo -e "\t[destination_cpu=a53-0, exception_level=el-3, trustzone] bootimage/bl31.elf" >> zcu102.bif
+echo -e "\t[destination_cpu = a53-0, exception_level=el-2] bootimage/u-boot.elf" >> zcu102.bif
 echo "}" >> zcu102.bif
 cd ..
 
@@ -255,7 +256,7 @@ echo >> fitImage.its
 echo -e "\timages {" >> fitImage.its
 echo -e "\t\tkernel@0 {" >> fitImage.its
 echo -e "\t\t\tdescription = \"Linux Kernel\";" >> fitImage.its
-echo -e "\t\t\tdata = /incbin/(\"./bootimage/Image\");" >> fitImage.its
+echo -e "\t\t\tdata = /incbin/(\"../bootimage/Image\");" >> fitImage.its
 echo -e "\t\t\ttype = \"kernel\";" >> fitImage.its
 echo -e "\t\t\tarch = \"arm64\";" >> fitImage.its
 echo -e "\t\t\tos = \"linux\";" >> fitImage.its
@@ -268,7 +269,7 @@ echo -e "\t\t\t};" >> fitImage.its
 echo -e "\t\t};" >> fitImage.its
 echo -e "\t\tfdt@0 {" >> fitImage.its
 echo -e "\t\t\tdescription = \"Flattened Device Tree blob\";" >> fitImage.its
-echo -e "\t\t\tdata = /incbin/(\"./bootimage/zynqmp-zcu102-rev1.0.dtb\");" >> fitImage.its
+echo -e "\t\t\tdata = /incbin/(\"../bootimage/zynqmp-zcu102-rev1.0.dtb\");" >> fitImage.its
 echo -e "\t\t\ttype = \"flat_dt\";" >> fitImage.its
 echo -e "\t\t\tarch = \"arm64\";" >> fitImage.its
 echo -e "\t\t\tcompression = \"none\";" >> fitImage.its
@@ -278,7 +279,7 @@ echo -e "\t\t\t};" >> fitImage.its
 echo -e "\t\t};" >> fitImage.its
 echo -e "\t\tramdisk@0 {" >> fitImage.its
 echo -e "\t\t\tdescription = \"ramdisk\";" >> fitImage.its
-echo -e "\t\t\tdata = /incbin/(\"./linux-files/initramfs.cpio.gz\");" >> fitImage.its
+echo -e "\t\t\tdata = /incbin/(\"../linux-files/initramfs.cpio.gz\");" >> fitImage.its
 echo -e "\t\t\ttype = \"ramdisk\";" >> fitImage.its
 echo -e "\t\t\tarch = \"arm64\";" >> fitImage.its
 echo -e "\t\t\tos = \"linux\";" >> fitImage.its
