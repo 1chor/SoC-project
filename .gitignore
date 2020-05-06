@@ -6,3 +6,4 @@
 repo
 android
 bootimage
+linux-files/initramfs.cpio.gz
