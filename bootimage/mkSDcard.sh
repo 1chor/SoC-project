@@ -219,3 +219,17 @@ if [ $populate ]; then
 	
 	echo_green "Populating partitions done"
 fi
+
+pretty_header "Eject SD card?"
+
+read -p "Do you want to eject the SD card (y/n)? " yn # read user input
+if [ "$yn" != "${yn#[Yy]}" ]; then # checks if y or Y is selected
+	
+	umount ${diskname}${prefix}* # unmount all partitions
+	udisksctl power-off -b ${diskname} # eject SD card
+	
+	echo_green "The SD card was successfully ejected" 
+	
+else
+	echo_blue "The SD card is still mounted"
+fi
