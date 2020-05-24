@@ -100,7 +100,7 @@ echo_green "Building Linux Kernel done"
 
 ########################################################################
 
-#pretty_header "Compiling kernel modules for PL devices"
+pretty_header "Compiling kernel modules for PL devices"
 
 #for driver in ./drivers/*/
 #do
@@ -110,7 +110,16 @@ echo_green "Building Linux Kernel done"
 #done
 #cp ./drivers/*/*.ko bootimage
 
-#echo_green "Compiling kernel modules for PL devices done"
+#compiling hdmi modules
+cd hdmi-modules
+export KERNEL_SRC=../mpsoc-linux-xlnx
+export SRC=.
+make all
+cp hdmi/xilinx-vphy.ko ../bootimage/
+cp hdmi/xilinx-hdmi-tx.ko ../bootimage/
+cd ..
+
+echo_green "Compiling kernel modules for PL devices done"
 
 ########################################################################
 
