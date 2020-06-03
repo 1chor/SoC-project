@@ -17,3 +17,4 @@
 [submodule "hdmi-modules"]
 	path = hdmi-modules
 	url = https://github.com/Xilinx/hdmi-modules/
+	ignore = untracked
