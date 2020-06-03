@@ -189,6 +189,7 @@ if [ $populate ]; then
 		cp -rfv uEnv.txt /tmp/$$/boot_part/
 		cp -rfv uramdisk.img /tmp/$$/boot_part/uramdisk.img
 		cp -rfv image.ub /tmp/$$/boot_part/
+		cp -rfv *.ko /tmp/$$/boot_part/
 		sync
 		umount /tmp/$$/boot_part
 		rm -rf /tmp/$$/boot_part
@@ -200,18 +201,10 @@ if [ $populate ]; then
 	#~ pretty_header "Populating SYSTEM partition"
 	#~ if [ -e ${diskname}${prefix}5 ]; then
 		#~ sudo dd if=out/target/product/$product/system.img of=${diskname}${prefix}5
+		#~ sudo dd if=../../Android8_2018_1-Source/out/target/product/$product/system.img of=${diskname}${prefix}5
 		#~ sudo e2label ${diskname}${prefix}5 SYSTEM
 		#~ sudo e2fsck -f ${diskname}${prefix}5
 		#~ sudo resize2fs ${diskname}${prefix}5
-		#~ if [[ "$silicon" == "es1" ]]; then
-			#~ mkdir -p /tmp/$$/system_part
-			#~ mount -t ext4 ${diskname}${prefix}5 /tmp/$$/system_part
-			#~ sudo mv /tmp/$$/system_part/lib/egl/libGLES_mali.so_es1 /tmp/$$/system_part/lib/egl/libGLES_mali.so
-			#~ sudo mv /tmp/$$/system_part/lib64/egl/libGLES_mali.so_es1 /tmp/$$/system_part/lib64/egl/libGLES_mali.so
-			#~ sync
-			#~ umount /tmp/$$/system_part
-			#~ rm -rf /tmp/$$/system_part
-		#~ fi
 	#~ else
 		#~ echo_red "!!! Error: missing SYSTEM partition ${diskname}${prefix}5";
 		#~ exit 1
