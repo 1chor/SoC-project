@@ -1,0 +1,7 @@
+# sv_startup service
+type sv_startup, domain;
+#type init_exec, exec_type, file_type;
+type sv_startup_exec, exec_type, file_type;
+
+init_daemon_domain(sv_startup)
+

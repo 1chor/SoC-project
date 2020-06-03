@@ -66,6 +66,12 @@ if [ ! -d android/vendor/xilinx/zynqmp/proprietary ]; then
 	
 fi
 
+#TODO:
+#Modify selinux policy
+#android/device/xilinx/zcu102/sepolicy
+# - file_contexts
+# - sv_startup.te 
+
 pretty_header "Making android"
 
 cd android
@@ -77,3 +83,6 @@ lunch zcu102-eng
 make -j
 
 echo_green "Making android done"
+
+#TODO:
+#Modify ramdisk.img
