@@ -15,7 +15,7 @@ function pretty_header() {
 		echo
 }
 
-sh generate_without_android.sh
+#~ sh generate_without_android.sh
 
 cd ..
 
@@ -48,6 +48,21 @@ if [ ! -d android ]; then
 	cd ..
 	
 	echo_green "Fetching android source done"
+	
+fi
+
+if [ ! -d android/vendor/xilinx/zynqmp/proprietary ]; then
+	
+	pretty_header "Fetching MALI 400 Userspace Binaries"
+	
+	cd build-files
+	
+	mkdir -p ../android/vendor/xilinx/zynqmp/proprietary 
+	cp -r mali/* ../android/vendor/xilinx/zynqmp/proprietary/ 
+	
+	cd ..
+	
+	echo_green "Fetching MALI 400 Userspace Binaries done"
 	
 fi
 
