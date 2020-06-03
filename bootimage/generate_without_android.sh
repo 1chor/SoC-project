@@ -117,6 +117,9 @@ export SRC=.
 make all
 cp hdmi/xilinx-vphy.ko ../bootimage/
 cp hdmi/xilinx-hdmi-tx.ko ../bootimage/
+cp hdmi/xilinx-hdmi-rx.ko ../bootimage/
+cp misc/dp159.ko ../bootimage/
+cp clk/si5324.ko ../bootimage/
 cd ..
 
 echo_green "Compiling kernel modules for PL devices done"
@@ -239,10 +242,10 @@ echo_green "Generating BOOT.BIN done"
 
 ########################################################################
 
-if [ ! -f linux-files/*.gz ]; then
+if [ ! -f build-files/*.gz ]; then
 	pretty_header "Creating rootfs"
 
-	cd linux-files
+	cd build-files
 	tar -xvf rootfs.tar.xz
 	sh -c 'find . | cpio -H newc -o' |gzip -9 > initramfs.cpio.gz
 	rm -f rootfs.cpio
@@ -288,7 +291,7 @@ echo -e "\t\t\t};" >> fitImage.its
 echo -e "\t\t};" >> fitImage.its
 echo -e "\t\tramdisk@0 {" >> fitImage.its
 echo -e "\t\t\tdescription = \"ramdisk\";" >> fitImage.its
-echo -e "\t\t\tdata = /incbin/(\"../linux-files/initramfs.cpio.gz\");" >> fitImage.its
+echo -e "\t\t\tdata = /incbin/(\"../build-files/initramfs.cpio.gz\");" >> fitImage.its
 echo -e "\t\t\ttype = \"ramdisk\";" >> fitImage.its
 echo -e "\t\t\tarch = \"arm64\";" >> fitImage.its
 echo -e "\t\t\tos = \"linux\";" >> fitImage.its
