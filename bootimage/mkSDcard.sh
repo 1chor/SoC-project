@@ -89,11 +89,6 @@ product=zcu102
 
 pretty_header "Build SD card for product $product"
 
-#~ if ! [ -d out/target/product/$product/boot ]; then
-   #~ echo "!!! Error: Missing out/target/product/$product"
-   #~ exit 1
-#~ fi
-
 removables=`removable_disks`
 
 for disk in $removables ; do # search for removable disks
@@ -127,22 +122,22 @@ pretty_header "Creating partition table"
 parted -s ${diskname} mklabel msdos
 
 pretty_header "Creating BOOT partition"
-parted -s --align=optimal ${diskname} mkpart primary 4MiB 256MiB
+parted -s --align=optimal ${diskname} mkpart primary 4MiB 132MiB
 
-#~ pretty_header "Creating ROOT partition"
-#~ parted -s --align=optimal ${diskname} mkpart primary 132MiB 260MiB
+pretty_header "Creating ROOT partition"
+parted -s --align=optimal ${diskname} mkpart primary 132MiB 260MiB
 
 # Making extended partition. Reserve 3GiB. 
 # It will contain system and cache partitions for now.
 # Additional misc. partitions (vendor, misc) should be placed
 # on this extended partition after cache.
-parted -s --align=optimal ${diskname} mkpart extended 256MiB 3332MiB
+parted -s --align=optimal ${diskname} mkpart extended 260MiB 3332MiB
 
-#~ pretty_header "Creating SYSTEM partition"
-#~ parted -s --align=optimal ${diskname} mkpart logical 264MiB 2312MiB
+pretty_header "Creating SYSTEM partition"
+parted -s --align=optimal ${diskname} mkpart logical 264MiB 2312MiB
 
-#~ pretty_header "Creating CACHE partition"
-#~ parted -s --align=optimal ${diskname} mkpart logical 2316MiB 2828MiB
+pretty_header "Creating CACHE partition"
+parted -s --align=optimal ${diskname} mkpart logical 2316MiB 2828MiB
 
 pretty_header "Creating DATA partition"
 parted -s --align=optimal ${diskname} mkpart primary 3332MiB 100%
@@ -150,7 +145,7 @@ parted -s --align=optimal ${diskname} mkpart primary 3332MiB 100%
 sync
 sleep 1
 
-for n in `seq 1 3` ; do
+for n in `seq 1 6` ; do
 	if ! [ -e ${diskname}${prefix}$n ] ; then
 		echo_red "!!! Error: missing partition ${diskname}${prefix}$n"
 		exit 1;
@@ -163,17 +158,17 @@ echo_green "Creating partitions done"
 pretty_header "Formating BOOT partition"
 mkfs.vfat -F 32 -n BOOT ${diskname}${prefix}1
 
-#~ pretty_header "Formating ROOT partition"
-#~ mkfs.ext4 -F -L ROOT ${diskname}${prefix}2
+pretty_header "Formating ROOT partition"
+mkfs.ext4 -F -L ROOT ${diskname}${prefix}2
 
-#~ pretty_header "Formating SYSTEM partition"
-#~ mkfs.ext4 -F -L SYSTEM ${diskname}${prefix}5
+pretty_header "Formating SYSTEM partition"
+mkfs.ext4 -F -L SYSTEM ${diskname}${prefix}5
 
-#~ pretty_header "Formating CACHE partition"
-#~ mkfs.ext4 -F -L CACHE ${diskname}${prefix}6
+pretty_header "Formating CACHE partition"
+mkfs.ext4 -F -L CACHE ${diskname}${prefix}6
 
 pretty_header "Formating DATA partition"
-mkfs.ext4 -F -L DATA ${diskname}${prefix}3
+mkfs.ext4 -F -L DATA ${diskname}${prefix}4
 
 echo_green "Formating partitions done"
 
@@ -186,10 +181,8 @@ if [ $populate ]; then
 		cp -rfv Image /tmp/$$/boot_part/
 		cp -rfv *.dtb /tmp/$$/boot_part/
 		cp -rfv *.bit /tmp/$$/boot_part/
-		cp -rfv uEnv.txt /tmp/$$/boot_part/
+		cp -rfv ../android/out/target/product/$product/boot/uEnv.txt /tmp/$$/boot_part/uEnv.txt
 		cp -rfv uramdisk.img /tmp/$$/boot_part/uramdisk.img
-		cp -rfv image.ub /tmp/$$/boot_part/
-		cp -rfv *.ko /tmp/$$/boot_part/
 		sync
 		umount /tmp/$$/boot_part
 		rm -rf /tmp/$$/boot_part
@@ -198,17 +191,30 @@ if [ $populate ]; then
 	   exit 1
 	fi
 
-	#~ pretty_header "Populating SYSTEM partition"
-	#~ if [ -e ${diskname}${prefix}5 ]; then
-		#~ sudo dd if=out/target/product/$product/system.img of=${diskname}${prefix}5
-		#~ sudo dd if=../../Android8_2018_1-Source/out/target/product/$product/system.img of=${diskname}${prefix}5
-		#~ sudo e2label ${diskname}${prefix}5 SYSTEM
-		#~ sudo e2fsck -f ${diskname}${prefix}5
-		#~ sudo resize2fs ${diskname}${prefix}5
-	#~ else
-		#~ echo_red "!!! Error: missing SYSTEM partition ${diskname}${prefix}5";
-		#~ exit 1
-	#~ fi
+	pretty_header "Populating SYSTEM partition"
+	if [ -e ${diskname}${prefix}5 ]; then
+		sudo dd if=../android/out/target/product/$product/system.img of=${diskname}${prefix}5
+		sudo e2label ${diskname}${prefix}5 SYSTEM
+		sudo e2fsck -f ${diskname}${prefix}5
+		sudo resize2fs ${diskname}${prefix}5
+	else
+		echo_red "!!! Error: missing SYSTEM partition ${diskname}${prefix}5";
+		exit 1
+	fi
+	
+	pretty_header "Populating DATA partition"
+	if [ -e ${diskname}${prefix}4 ]; then
+		mkdir -p /tmp/$$/data_part
+		mount -t vfat ${diskname}${prefix}4 /tmp/$$/data_part
+		cp -rfv ../build-files/startup.sh /tmp/$$/data_part/
+		cp -rfv *.ko /tmp/$$/data_part/modules/
+		sync
+		umount /tmp/$$/data_part
+		rm -rf /tmp/$$/data_part
+	else
+	   echo_red "!!! Error: missing DATA partition ${diskname}${prefix}4";
+	   exit 1
+	fi
 	
 	echo_green "Populating partitions done"
 fi
