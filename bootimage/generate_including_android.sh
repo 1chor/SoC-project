@@ -66,6 +66,21 @@ if [ ! -d android/vendor/xilinx/zynqmp/proprietary ]; then
 	
 fi
 
+if [ ! -f android/device/xilinx/zcu102/sepolicy/sv_startup.te ]; then
+
+	pretty_header "Updating selinx policy files"
+	
+	cd build-files/sepolicy
+	
+	cp sv_startup.te ../../android/device/xilinx/zcu102/sepolicy/
+	cp file_contexts ../../android/device/xilinx/zcu102/sepolicy/
+	
+	cd ..
+	
+	
+	echo_green "Updating selinx policy files done"
+fi
+
 #TODO:
 #Modify selinux policy
 #android/device/xilinx/zcu102/sepolicy
