@@ -23,21 +23,17 @@ function depends () {
 
 ########################################################################
 
-pretty_header "Fetching Submodules"
-
-cd ..
-git submodule update --init --recursive
-
-echo_green "Fetching Submodules done"
-
-########################################################################
-
 if [ "$1" == "clean" ]; then
 	pretty_header "Cleaning repository"
 	
 	#Linux Kernel
 	cd mpsoc-linux-xlnx 
 	make distclean
+	cd ..
+	
+	#hdmi-modules
+	cd hdmi-modules
+	make clean
 	cd ..
 	
 	#u-boot
@@ -56,7 +52,18 @@ if [ "$1" == "clean" ]; then
 	cd ..
 	
 	echo_green "Cleaning repository done"
+	
+	exit
 fi
+
+########################################################################
+
+pretty_header "Fetching Submodules"
+
+cd ..
+git submodule update --init --recursive
+
+echo_green "Fetching Submodules done"
 
 ########################################################################
 
@@ -92,7 +99,7 @@ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- xilinx_zynqmp_android_defconfig
 
 #build
 make -j4
-cp arch/arm64/boot/Image ../bootimage/ #rename necessary?? "kernel"
+cp arch/arm64/boot/Image ../bootimage/
 
 cd ..
 

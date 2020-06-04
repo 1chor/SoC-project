@@ -15,9 +15,34 @@ function pretty_header() {
 		echo
 }
 
-#~ sh generate_without_android.sh
+########################################################################
 
-cd ..
+if [ "$1" == "clean" ]; then
+	pretty_header "Cleaning repository"
+	
+	#Android
+	cd android 
+	make clean
+	cd ..
+	
+	#ramdisk
+	cd build-files/ramdisk
+	rm -r ramdisk
+	rm *.img
+	cd ../..
+		
+	./generate_without_android.sh clean
+	
+	echo_green "Cleaning repository done"
+	
+	exit 
+fi
+
+########################################################################
+
+./generate_without_android.sh
+
+#~ cd ..
 
 if [ ! -f repo ]; then
 
@@ -32,6 +57,8 @@ if [ ! -f repo ]; then
 fi
 
 export PATH=$PATH:`pwd`
+
+########################################################################
 
 if [ ! -d android ]; then
 	
@@ -51,6 +78,8 @@ if [ ! -d android ]; then
 	
 fi
 
+########################################################################
+
 if [ ! -d android/vendor/xilinx/zynqmp/proprietary ]; then
 	
 	pretty_header "Fetching MALI 400 Userspace Binaries"
@@ -66,6 +95,8 @@ if [ ! -d android/vendor/xilinx/zynqmp/proprietary ]; then
 	
 fi
 
+########################################################################
+
 if [ ! -f android/device/xilinx/zcu102/sepolicy/sv_startup.te ]; then
 
 	pretty_header "Updating selinx policy files"
@@ -75,17 +106,12 @@ if [ ! -f android/device/xilinx/zcu102/sepolicy/sv_startup.te ]; then
 	cp sv_startup.te ../../android/device/xilinx/zcu102/sepolicy/
 	cp file_contexts ../../android/device/xilinx/zcu102/sepolicy/
 	
-	cd ..
-	
+	cd ../..
 	
 	echo_green "Updating selinx policy files done"
 fi
 
-#TODO:
-#Modify selinux policy
-#android/device/xilinx/zcu102/sepolicy
-# - file_contexts
-# - sv_startup.te 
+########################################################################
 
 pretty_header "Making android"
 
@@ -97,7 +123,23 @@ lunch zcu102-eng
 
 make -j
 
+cp out/target/product/zcu102/ramdisk.img ../build-files/ramdisk
+
+cd ..
+
 echo_green "Making android done"
 
-#TODO:
-#Modify ramdisk.img
+########################################################################
+
+pretty_header "Modify ramdisk.img"
+
+cd build-files/ramdisk
+
+./modify_ramdisk.sh extract
+cp init.rc ramdisk/init.rc
+./modify_ramdisk.sh wrap
+cp uramdisk.img ../../bootimage/
+
+cd ../..
+
+echo_green "Modify ramdisk.img done"
