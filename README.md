@@ -48,12 +48,20 @@
  ```
  
 ## Project progress
-
  - [X] Make Android bootable
  - [ ] Enable HDMI output 
  - [ ] Add custom hardware
  - [ ] Enable dynamic partial reconfiguration
  
+## Building the code
+ There are two script files in the bootimage directory:
+ ```shell
+ $ cd WORKING_DIRECTORY/bootimage
+ $ ./generate_without_android.sh    # used to generate hardware design and linux components
+ $ ./generate_including_android.sh  # used to generate android
+ ```
+ These two scripts generate all the files necessary to start the system.
+  
 ## Preparing SD Card
  Run the following script to prepare bootable SD card. 
  Use path to your SD card instead of `/dev/mmcblk0`. 
@@ -64,9 +72,11 @@
  ```
  
 ## Running the Build on the Xilinx ZCU102
- - Set boot mode of the board to "SD Boot". Insert SD card to the board.
+ - Use default [ZCU102 User Guide](https://www.xilinx.com/support/documentation/boards_and_kits/zcu102/ug1182-zcu102-eval-bd.pdf) as a reference for switches and connectors location.
+ - Set boot mode of the board to "SD Boot". 
+ - Insert SD card to the board.
  - Connect external monitor using HDMI. Please note that HDMI must be connected before board power-on.
- - Connect USB mouse (and optionally USB keyboard) as shown below.
+ - Connect USB mouse and USB keyboard using USB hub as shown below.
  - Power on the board
  <p align="center">
  <img src="./report/images/ZCU102.png" width="600">
