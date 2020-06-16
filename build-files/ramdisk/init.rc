@@ -554,9 +554,9 @@ on zygote-start && property:ro.crypto.state=encrypted && property:ro.crypto.type
 on boot
     # start user script
     # start logcat
-    chmod 0777 /data/startup.sh
-    start sv_startup
-    # exec /system/vendor/bin/sh ./data/startup.sh
+    chmod 0755 /data/startup.sh
+    #start sv_startup
+    exec_start sv_startup    
 
     # basic network init
     ifup lo
