@@ -5,7 +5,9 @@ function echo_green () { printf "\033[1;32m$*\033[m\n"; }
 function echo_blue  () { printf "\033[1;34m$*\033[m\n"; }
 
 function usage () {
-	echo_red "Usage: $0 [extract/wrap/help]"
+	echo_red "Usage: $0 [clean/extract/wrap/help]"
+	echo 
+	echo_red "clean   - removes old generated files"
 	echo 
 	echo_red "unwrap  - unwrap the image with the u-boot header"
 	echo 
@@ -20,6 +22,9 @@ function usage () {
 function check_option() {
 	local opt=$1
 	case $opt in
+		clean)
+			clean="y"
+			;;
 		unwrap)
 			unwrap="y"
 			;;
@@ -43,6 +48,24 @@ function check_option() {
 for opt in $@ ; do # checks all arguments
 	check_option $opt
 done
+
+if [ "$clean" = "y" ]; then
+
+	#remove old image files
+	if [ -f uramdisk.img ]; then
+		rm uramdisk.img
+	fi
+	
+	if [ -f ramdisk.img ]; then
+		rm ramdisk.img
+	fi
+	
+	#remove old extracted ramdisk
+	if [ -d ramdisk ]; then
+		rm -rf ramdisk
+	fi
+
+fi
 
 if [ "$unwrap" = "y" ]; then
 

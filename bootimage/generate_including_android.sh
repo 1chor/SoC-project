@@ -27,8 +27,7 @@ if [ "$1" == "clean" ]; then
 	
 	#ramdisk
 	cd build-files/ramdisk
-	rm -r ramdisk
-	rm *.img
+	./modify_ramdisk.sh clean
 	cd ../..
 		
 	./generate_without_android.sh clean
