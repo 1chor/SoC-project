@@ -42,7 +42,7 @@ fi
 
 ./generate_without_android.sh
 
-#~ cd ..
+cd ..
 
 if [ ! -f repo ]; then
 
