@@ -208,7 +208,7 @@ if [ $populate ]; then
 		mount -t ext4 ${diskname}${prefix}4 /tmp/$$/data_part
 		cp -rfv ../build-files/startup.sh /tmp/$$/data_part/
 		mkdir -p /tmp/$$/data_part/modules
-		cp -rfv *.ko /tmp/$$/data_part/modules/
+		cp -rfv modules/*.ko /tmp/$$/data_part/modules/
 		sync
 		umount /tmp/$$/data_part
 		rm -rf /tmp/$$/data_part

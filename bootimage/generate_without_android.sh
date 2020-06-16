@@ -115,18 +115,18 @@ pretty_header "Compiling kernel modules for PL devices"
 #	make
 #	cd ../..
 #done
-#cp ./drivers/*/*.ko bootimage
+#cp ./drivers/*/*.ko bootimage/modules
 
 #compiling hdmi modules
 cd hdmi-modules
 export KERNEL_SRC=../mpsoc-linux-xlnx
 export SRC=.
 make all
-cp hdmi/xilinx-vphy.ko ../bootimage/
-cp hdmi/xilinx-hdmi-tx.ko ../bootimage/
-cp hdmi/xilinx-hdmi-rx.ko ../bootimage/
-cp misc/dp159.ko ../bootimage/
-cp clk/si5324.ko ../bootimage/
+cp hdmi/xilinx-vphy.ko ../bootimage/modules
+cp hdmi/xilinx-hdmi-tx.ko ../bootimage/modules
+cp hdmi/xilinx-hdmi-rx.ko ../bootimage/modules
+cp misc/dp159.ko ../bootimage/modules
+cp clk/si5324.ko ../bootimage/modules
 cd ..
 
 echo_green "Compiling kernel modules for PL devices done"
@@ -225,20 +225,24 @@ echo_green "Building ARM Trusted Firmware done"
 
 ########################################################################
 
-pretty_header "Creating zcu102.bif"
+if [ ! -f bootimage/zcu102.bif ]; then
 
-cd bootimage
-echo "the_ROM_image:" > zcu102.bif
-echo "{" >> zcu102.bif
-echo -e "\t[destination_cpu=a53-0, bootloader] hardware_design/soc_project.sdk/fsbl/Release/fsbl.elf" >> zcu102.bif
-echo -e "\t[pmufw_image] hardware_design/soc_project.sdk/pmufw/Release/pmufw.elf" >> zcu102.bif
-echo -e "\t[destination_device = pl] hardware_design/soc_project.sdk/zcu102_wrapper.bit" >> zcu102.bif
-echo -e "\t[destination_cpu=a53-0, exception_level=el-3, trustzone] bootimage/bl31.elf" >> zcu102.bif
-echo -e "\t[destination_cpu = a53-0, exception_level=el-2] bootimage/u-boot.elf" >> zcu102.bif
-echo "}" >> zcu102.bif
-cd ..
+	pretty_header "Creating zcu102.bif"
 
-echo_green "Creating zcu102.bif done"
+	cd bootimage
+	echo "the_ROM_image:" > zcu102.bif
+	echo "{" >> zcu102.bif
+	echo -e "\t[destination_cpu=a53-0, bootloader] hardware_design/soc_project.sdk/fsbl/Release/fsbl.elf" >> zcu102.bif
+	echo -e "\t[pmufw_image] hardware_design/soc_project.sdk/pmufw/Release/pmufw.elf" >> zcu102.bif
+	echo -e "\t[destination_device = pl] hardware_design/soc_project.sdk/zcu102_wrapper.bit" >> zcu102.bif
+	echo -e "\t[destination_cpu=a53-0, exception_level=el-3, trustzone] bootimage/bl31.elf" >> zcu102.bif
+	echo -e "\t[destination_cpu = a53-0, exception_level=el-2] bootimage/u-boot.elf" >> zcu102.bif
+	echo "}" >> zcu102.bif
+	cd ..
+
+	echo_green "Creating zcu102.bif done"
+	
+fi
 
 ########################################################################
 
