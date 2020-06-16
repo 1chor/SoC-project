@@ -56,6 +56,8 @@ fi
 
 if [ "$extract" = "y" ]; then
 
+	mkdir ramdisk
+	
 	# extract image file
 	gunzip -cN ramdisk.img | cpio -idm --no-preserve-owner -D ramdisk
 
@@ -72,6 +74,6 @@ if [ "$wrap" = "y" ]; then
 	cd ..
 
 	# wrapping the image with the u-boot header
-	/media/soc/Volume/SoC-project/mpsoc-u-boot-xlnx/tools/mkimage -A arm64 -T ramdisk -n "RAM Disk" -C gzip -d ramdisk.img uramdisk.img
+	../../mpsoc-u-boot-xlnx/tools/mkimage -A arm64 -T ramdisk -n "RAM Disk" -C gzip -d ramdisk.img uramdisk.img
 
 fi
