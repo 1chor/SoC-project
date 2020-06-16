@@ -1,0 +1,20 @@
+#########
+#Exclude .gitignore
+#########
+!.gitignore
+
+#########
+#Exclude files
+#########
+!init.rc
+!modify_ramdisk.sh
+
+#########
+#Ignore generated folder
+#########
+ramdisk/
+
+#########
+#Ignore generated files
+#########
+*.img
