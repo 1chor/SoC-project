@@ -46,23 +46,37 @@ done
 
 if [ "$unwrap" = "y" ]; then
 
+	# remove old ramdisk.img
+	if [ -f ramdisk.img ]; then
+		rm ramdisk.img
+	fi
+	
 	# unwrap image with the u-boot header
 	dd if=uramdisk.img bs=64 skip=1 of=ramdisk.img
 
-	# rename old uramdisk.img
-	mv "uramdisk.img" "uramdisk_old.img"
-
+	# remove old uramdisk.img
+	if [ -f uramdisk.img ]; then
+		rm uramdisk.img
+	fi
+	
 fi
 
 if [ "$extract" = "y" ]; then
 
+	#remove old extracted ramdisk
+	if [ -d ramdisk ]; then
+		rm -rf ramdisk
+	fi
+	
 	mkdir ramdisk
 	
 	# extract image file
 	gunzip -cN ramdisk.img | cpio -idm --no-preserve-owner -D ramdisk
 
-	# rename old ramdisk.img
-	mv ramdisk.img ramdisk_old.img
+	# remove old ramdisk.img
+	if [ -f ramdisk.img ]; then
+		rm ramdisk.img
+	fi
 
 fi
 
