@@ -198,16 +198,13 @@ echo_green "Building PMUFW done"
 
 pretty_header "Compiling device tree"
 
+#create device tree project
 cd hardware_design
-xsdk -batch -source ./scripts/create_devicetree_project.tcl
-
-#pre-processing device tree sources
-cd soc_project.sdk/device-tree
-gcc -I . -E -nostdinc -undef -D_DTS__ -x assembler-with-cpp -o system.dts system-top.dts
+make -f scripts/Makefile dts
 
 #compiling a device tree blob
-cd ../../../mpsoc-linux-xlnx
-./scripts/dtc/dtc -I dts -O dtb -o ../bootimage/zynqmp-zcu102-rev1.0.dtb ../hardware_design/soc_project.sdk/device-tree/system.dts
+make -f scripts/Makefile compile
+cp soc_project.sdk/device-tree/system-top.dtb ../bootimage/zynqmp-zcu102-rev1.0.dtb
 cd ..
 
 echo_green "Compiling device tree done"
