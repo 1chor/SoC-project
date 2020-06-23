@@ -19,6 +19,8 @@ function usage () {
 	echo 
 	echo_red "populate   - The BOOT partition will be populated with data"
 	echo 
+	echo_red "eject      - The SD card will be ejected automatically"
+	echo 
 	echo_red "help       - Prints this message"
 	exit 1 ;
 }
@@ -60,6 +62,9 @@ function check_option() {
 	case $opt in
 		populate) 
 			populate="1"
+			;;
+		eject) 
+			eject="1"
 			;;
 		help)
 			usage
@@ -220,9 +225,14 @@ if [ $populate ]; then
 	echo_green "Populating partitions done"
 fi
 
-pretty_header "Eject SD card?"
+if [ $eject ]; then 
+	pretty_header "Eject SD card"
+	yn="y"
+else
+	pretty_header "Eject SD card?"
+	read -p "Do you want to eject the SD card (y/n)? " yn # read user input
+fi
 
-read -p "Do you want to eject the SD card (y/n)? " yn # read user input
 if [ "$yn" != "${yn#[Yy]}" ]; then # checks if y or Y is selected
 	
 	umount ${diskname}${prefix}* # unmount all partitions
