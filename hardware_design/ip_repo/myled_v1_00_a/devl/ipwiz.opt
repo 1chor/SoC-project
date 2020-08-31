@@ -1,0 +1,8 @@
+-batch 
+-create myled 
+-ver 1.00.a 
+-dir "/home/benedikt/hardware_project/ZedBoard_OOB_Design/hw/xps_proj" 
+-lang vhdl 
+-bus axi4lite s 
+-reg 1 
+-xps 

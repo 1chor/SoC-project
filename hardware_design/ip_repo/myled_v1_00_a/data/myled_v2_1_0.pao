@@ -1,0 +1,10 @@
+##############################################################################
+## Filename:          /home/benedikt/hardware_project/ZedBoard_OOB_Design/hw/xps_proj/pcores/myled_v1_00_a/data/myled_v2_1_0.pao
+## Description:       Peripheral Analysis Order
+## Date:              Wed Jan 30 15:47:57 2019 (by Create and Import Peripheral Wizard)
+##############################################################################
+
+lib proc_common_v3_00_a  all 
+lib axi_lite_ipif_v1_01_a  all 
+lib myled_v1_00_a user_logic vhdl
+lib myled_v1_00_a myled vhdl
