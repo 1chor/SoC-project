@@ -15,7 +15,7 @@ function pretty_header() {
 }
 
 function usage () {
-	echo_red "Usage: $0 /dev/diskname [populate/help]"
+	echo_red "Usage: $0 /dev/diskname [populate/eject/help]"
 	echo 
 	echo_red "populate   - The BOOT partition will be populated with data"
 	echo 
