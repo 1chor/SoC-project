@@ -18,8 +18,8 @@ set_property IOSTANDARD LVCMOS33 [get_ports reset]
 
 #####
 ## USER_MGT_SI570_CLOCK1
-set_property PACKAGE_PIN L27 [get_ports DRU_CLK_IN_clk_p]
-set_property PACKAGE_PIN L28 [get_ports DRU_CLK_IN_clk_n]
+#set_property PACKAGE_PIN L27 [get_ports DRU_CLK_IN_clk_p]
+#set_property PACKAGE_PIN L28 [get_ports DRU_CLK_IN_clk_n]
 #####
 
 
@@ -66,40 +66,40 @@ set_property PACKAGE_PIN R28 [get_ports TX_REFCLK_N_IN]
 #####
 ## HDMI RX
 # HDMI RX DATA
-set_property PACKAGE_PIN T33 [get_ports {HDMI_RX_DAT_P_IN[0]}]
-set_property PACKAGE_PIN T34 [get_ports {HDMI_RX_DAT_N_IN[0]}]
+#set_property PACKAGE_PIN T33 [get_ports {HDMI_RX_DAT_P_IN[0]}]
+#set_property PACKAGE_PIN T34 [get_ports {HDMI_RX_DAT_N_IN[0]}]
 
-set_property PACKAGE_PIN P33 [get_ports {HDMI_RX_DAT_P_IN[1]}]
-set_property PACKAGE_PIN P34 [get_ports {HDMI_RX_DAT_N_IN[1]}]
+#set_property PACKAGE_PIN P33 [get_ports {HDMI_RX_DAT_P_IN[1]}]
+#set_property PACKAGE_PIN P34 [get_ports {HDMI_RX_DAT_N_IN[1]}]
 
-set_property PACKAGE_PIN N31 [get_ports {HDMI_RX_DAT_P_IN[2]}]
-set_property PACKAGE_PIN N32 [get_ports {HDMI_RX_DAT_N_IN[2]}]
+#set_property PACKAGE_PIN N31 [get_ports {HDMI_RX_DAT_P_IN[2]}]
+#set_property PACKAGE_PIN N32 [get_ports {HDMI_RX_DAT_N_IN[2]}]
 
 # HDMI RX CLK
-set_property PACKAGE_PIN N27 [get_ports HDMI_RX_CLK_P_IN];
-set_property PACKAGE_PIN N28 [get_ports HDMI_RX_CLK_N_IN];
+#set_property PACKAGE_PIN N27 [get_ports HDMI_RX_CLK_P_IN];
+#set_property PACKAGE_PIN N28 [get_ports HDMI_RX_CLK_N_IN];
 
 # HDMI RX I2C
-set_property PACKAGE_PIN E15 [get_ports RX_DDC_OUT_scl_io]
-set_property IOSTANDARD LVCMOS33 [get_ports RX_DDC_OUT_scl_io]
+#set_property PACKAGE_PIN E15 [get_ports RX_DDC_OUT_scl_io]
+#set_property IOSTANDARD LVCMOS33 [get_ports RX_DDC_OUT_scl_io]
 
-set_property PACKAGE_PIN A15 [get_ports RX_DDC_OUT_sda_io]
-set_property IOSTANDARD LVCMOS33 [get_ports RX_DDC_OUT_sda_io]
+#set_property PACKAGE_PIN A15 [get_ports RX_DDC_OUT_sda_io]
+#set_property IOSTANDARD LVCMOS33 [get_ports RX_DDC_OUT_sda_io]
 
 # HDMI RX PWR DET
-set_property PACKAGE_PIN D14 [get_ports RX_DET_IN]
-set_property IOSTANDARD LVCMOS33 [get_ports RX_DET_IN]
+#set_property PACKAGE_PIN D14 [get_ports RX_DET_IN]
+#set_property IOSTANDARD LVCMOS33 [get_ports RX_DET_IN]
 
 # HDMI RX HPD
-set_property PACKAGE_PIN E14 [get_ports RX_HPD_OUT]
-set_property IOSTANDARD LVCMOS33 [get_ports RX_HPD_OUT]
+#set_property PACKAGE_PIN E14 [get_ports RX_HPD_OUT]
+#set_property IOSTANDARD LVCMOS33 [get_ports RX_HPD_OUT]
 
 # HDMI RX REFCLK
-set_property PACKAGE_PIN AG5 [get_ports RX_REFCLK_P_OUT]
-set_property IOSTANDARD LVDS [get_ports RX_REFCLK_P_OUT]
+#set_property PACKAGE_PIN AG5 [get_ports RX_REFCLK_P_OUT]
+#set_property IOSTANDARD LVDS [get_ports RX_REFCLK_P_OUT]
 
-set_property PACKAGE_PIN AG4 [get_ports RX_REFCLK_N_OUT]
-set_property IOSTANDARD LVDS [get_ports RX_REFCLK_N_OUT]
+#set_property PACKAGE_PIN AG4 [get_ports RX_REFCLK_N_OUT]
+#set_property IOSTANDARD LVDS [get_ports RX_REFCLK_N_OUT]
 #####
 
 
@@ -128,24 +128,29 @@ set_property IOSTANDARD LVCMOS33 [get_ports fmch_iic_sda_io]
 #####
 ## Misc
 #GPIO_LEDs
-set_property PACKAGE_PIN AG14 [get_ports {LED0}]
-#Only LED 0 is used at the moment
-#set_property PACKAGE_PIN AF13 [get_ports {LED1}]
-#set_property PACKAGE_PIN AE13 [get_ports {LED2}]
-#set_property PACKAGE_PIN AJ14 [get_ports {LED3}]           
-#set_property PACKAGE_PIN AJ15 [get_ports {LED4}]           
-#set_property PACKAGE_PIN AH13 [get_ports {LED5}]           
-#set_property PACKAGE_PIN AH14 [get_ports {LED6}]           
-#set_property PACKAGE_PIN AL12 [get_ports {LED7}]                 
+#set_property PACKAGE_PIN AG14 [get_ports {LED0}] # for HDMI
+#set_property PACKAGE_PIN AF13 [get_ports {LED1}] # for HDMI
 
-set_property IOSTANDARD LVCMOS33 [get_ports {LED0}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {LED1}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {LED2}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {LED3}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {LED4}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {LED5}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {LED6}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {LED7}]
+set_property PACKAGE_PIN AG14 [get_ports {LED[0]}]
+set_property PACKAGE_PIN AF13 [get_ports {LED[1]}]
+set_property PACKAGE_PIN AE13 [get_ports {LED[2]}]
+set_property PACKAGE_PIN AJ14 [get_ports {LED[3]}]           
+set_property PACKAGE_PIN AJ15 [get_ports {LED[4]}]           
+set_property PACKAGE_PIN AH13 [get_ports {LED[5]}]           
+set_property PACKAGE_PIN AH14 [get_ports {LED[6]}]           
+set_property PACKAGE_PIN AL12 [get_ports {LED[7]}]                 
+
+#set_property IOSTANDARD LVCMOS33 [get_ports {LED0}] # for HDMI
+#set_property IOSTANDARD LVCMOS33 [get_ports {LED1}] # for HDMI
+
+set_property IOSTANDARD LVCMOS33 [get_ports {LED[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LED[1]}] 
+set_property IOSTANDARD LVCMOS33 [get_ports {LED[2]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LED[3]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LED[4]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LED[5]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LED[6]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LED[7]}]
 #####
    
 
