@@ -48,7 +48,7 @@ static int proc_myled_show(struct seq_file *p, void *v)
 {
 	u32 myled_value;
 	myled_value = ioread32(base_addr);
-	seq_printf(p, "0x%x", myled_value);
+	seq_printf(p, "0x%x\n", myled_value);
 	return 0;
 }
 
