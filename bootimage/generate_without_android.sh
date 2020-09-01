@@ -109,13 +109,13 @@ echo_green "Building Linux Kernel done"
 
 pretty_header "Compiling kernel modules for PL devices"
 
-#for driver in ./drivers/*/
-#do
-#	cd $driver
-#	make
-#	cd ../..
-#done
-#cp ./drivers/*/*.ko bootimage/modules
+for driver in ./drivers/*/
+do
+	cd $driver
+	make
+	cd ../..
+done
+cp ./drivers/*/*.ko bootimage/modules
 
 #compiling hdmi modules
 cd hdmi-modules
