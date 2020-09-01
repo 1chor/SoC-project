@@ -8,6 +8,11 @@ echo "++ Start user startup script ++"
 echo "++                           ++"
 echo "+++++++++++++++++++++++++++++++"
 
+echo "++ Configure adb for ethernet ++"
+stop adbd
+setprop service.adp.tcp.port 5555
+start adbd
+
 echo "++ Loading vphy module ++"
 insmod /data/modules/xilinx-vphy.ko
 
@@ -22,3 +27,6 @@ insmod /data/modules/xilinx-hdmi-tx.ko
 
 echo "++ Loading HDMI RX module ++"
 insmod /data/modules/xilinx-hdmi-rx.ko
+
+echo "++ Loading myled module ++"
+insmod /data/modules/myled.ko
