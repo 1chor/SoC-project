@@ -1,7 +1,7 @@
 //Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2018.1 (lin64) Build 2188600 Wed Apr  4 18:39:19 MDT 2018
-//Date        : Mon Aug 31 19:33:31 2020
+//Date        : Tue Sep  1 00:56:59 2020
 //Host        : soc running 64-bit Ubuntu 18.04.5 LTS
 //Command     : generate_target zcu102_wrapper.bd
 //Design      : zcu102_wrapper
@@ -14,8 +14,7 @@ module zcu102_wrapper
     HDMI_TX_CLK_P_OUT,
     HDMI_TX_DAT_N_OUT,
     HDMI_TX_DAT_P_OUT,
-    LED0,
-    LED1,
+    LED,
     SI5324_LOL_IN,
     SI5324_RST_OUT,
     TX_DDC_OUT_scl_io,
@@ -31,8 +30,7 @@ module zcu102_wrapper
   output HDMI_TX_CLK_P_OUT;
   output [2:0]HDMI_TX_DAT_N_OUT;
   output [2:0]HDMI_TX_DAT_P_OUT;
-  output LED0;
-  output LED1;
+  output [7:0]LED;
   input SI5324_LOL_IN;
   output [0:0]SI5324_RST_OUT;
   inout TX_DDC_OUT_scl_io;
@@ -49,8 +47,7 @@ module zcu102_wrapper
   wire HDMI_TX_CLK_P_OUT;
   wire [2:0]HDMI_TX_DAT_N_OUT;
   wire [2:0]HDMI_TX_DAT_P_OUT;
-  wire LED0;
-  wire LED1;
+  wire [7:0]LED;
   wire SI5324_LOL_IN;
   wire [0:0]SI5324_RST_OUT;
   wire TX_DDC_OUT_scl_i;
@@ -100,8 +97,7 @@ module zcu102_wrapper
         .HDMI_TX_CLK_P_OUT(HDMI_TX_CLK_P_OUT),
         .HDMI_TX_DAT_N_OUT(HDMI_TX_DAT_N_OUT),
         .HDMI_TX_DAT_P_OUT(HDMI_TX_DAT_P_OUT),
-        .LED0(LED0),
-        .LED1(LED1),
+        .LED(LED),
         .SI5324_LOL_IN(SI5324_LOL_IN),
         .SI5324_RST_OUT(SI5324_RST_OUT),
         .TX_DDC_OUT_scl_i(TX_DDC_OUT_scl_i),
