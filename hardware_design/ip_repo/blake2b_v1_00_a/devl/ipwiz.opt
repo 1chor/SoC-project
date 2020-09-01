@@ -1,0 +1,8 @@
+-batch 
+-create blake2b 
+-ver 1.00.a 
+-dir "/home/benedikt/git_repo/hardware_design" 
+-lang vhdl 
+-bus axi4lite s 
+-reg 4 
+-xps 
