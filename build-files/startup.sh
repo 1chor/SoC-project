@@ -2,34 +2,62 @@
 
 #logcat -b all -d
 
-echo "+++++++++++++++++++++++++++++++"
-echo "++                           ++"
-echo "++ Start user startup script ++"
-echo "++                           ++"
-echo "+++++++++++++++++++++++++++++++"
+echo > /dev/kmsg # empty line
 
-echo "++ Configure adb for ethernet ++"
+echo "+++++++++++++++++++++++++++++++" > /dev/kmsg
+echo "++                           ++" > /dev/kmsg
+echo "++ Start user startup script ++" > /dev/kmsg
+echo "++                           ++" > /dev/kmsg
+echo "+++++++++++++++++++++++++++++++" > /dev/kmsg
+
+echo > /dev/kmsg # empty line
+
+echo "++ Configure adb for ethernet ++" > /dev/kmsg
 stop adbd
 setprop service.adp.tcp.port 5555
 start adbd
 
-echo "++ Loading vphy module ++"
+echo > /dev/kmsg # empty line
+
+echo "++ Loading vphy module ++" > /dev/kmsg
 insmod /data/modules/xilinx-vphy.ko
 
-echo "++ Loading clock module ++"
+echo > /dev/kmsg # empty line
+
+echo "++ Loading clock module ++" > /dev/kmsg
 insmod /data/modules/si5324.ko
 
-echo "++ Loading HDMI I2c module ++"
+echo > /dev/kmsg # empty line
+
+echo "++ Loading HDMI I2c module ++" > /dev/kmsg
 insmod /data/modules/dp159.ko
 
-echo "++ Loading HDMI TX module ++"
+echo > /dev/kmsg # empty line
+
+echo "++ Loading HDMI TX module ++" > /dev/kmsg
 insmod /data/modules/xilinx-hdmi-tx.ko
 
-echo "++ Loading HDMI RX module ++"
+echo > /dev/kmsg # empty line
+
+echo "++ Loading HDMI RX module ++" > /dev/kmsg
 insmod /data/modules/xilinx-hdmi-rx.ko
 
-echo "++ Loading myled module ++"
+echo > /dev/kmsg # empty line
+
+echo "++ Loading myled module ++" > /dev/kmsg
 insmod /data/modules/myled.ko
 
-echo "++ Loading blake2b module ++"
+echo > /dev/kmsg # empty line
+
+echo "++ Loading blake2b module ++" > /dev/kmsg
 insmod /data/modules/blake2b.ko
+
+echo > /dev/kmsg # empty line
+
+echo "+++++++++++++++++++++++++++++++" > /dev/kmsg
+echo "++                           ++" > /dev/kmsg
+echo "++ End user startup script ++" > /dev/kmsg
+echo "++                           ++" > /dev/kmsg
+echo "+++++++++++++++++++++++++++++++" > /dev/kmsg
+
+echo > /dev/kmsg # empty line
