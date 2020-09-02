@@ -30,3 +30,6 @@ insmod /data/modules/xilinx-hdmi-rx.ko
 
 echo "++ Loading myled module ++"
 insmod /data/modules/myled.ko
+
+echo "++ Loading blake2b module ++"
+insmod /data/modules/blake2b.ko
