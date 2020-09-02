@@ -15,7 +15,7 @@
 
 /* Define Driver Name */
 #define DRIVER_NAME	"blake2b"
-#define IRQ_NUM		87
+#define IRQ_NUM		92
 #define SYSCALL_MAJOR	22
 
 #define FLAG_SINK_READY	0x80000000
@@ -298,7 +298,7 @@ static void blake2b_shutdown(struct platform_device *pdev)
 /* device match table to match with device node in device tree */
 //static const struct of_device_id blake2b_of_match[] __devinitconst = {
 static const struct of_device_id blake2b_of_match[] = {
-	{.compatible = "soclab,blake2b-1.00.a"},
+	{.compatible = "xlnx,blake2b-1.0"},
 	{},
 };
 
