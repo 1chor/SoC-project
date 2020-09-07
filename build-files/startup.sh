@@ -19,6 +19,17 @@ start adbd
 
 echo > /dev/kmsg # empty line
 
+echo "++ List IP address ++" > /dev/kmsg
+echo "IPv4 address: " > /dev/kmsg
+ifconfig eth0 | grep 'inet addr' | cut -d: -f2 | cut -d" " -f1 > /dev/kmsg
+
+echo > /dev/kmsg # empty line
+
+echo "++ Prepare partial reconfiguration ++" > /dev/kmsg
+mkdir -p /lib/firmware
+
+echo > /dev/kmsg # empty line
+
 echo "++ Loading vphy module ++" > /dev/kmsg
 insmod /data/modules/xilinx-vphy.ko
 
@@ -51,6 +62,11 @@ echo > /dev/kmsg # empty line
 
 echo "++ Loading blake2b module ++" > /dev/kmsg
 insmod /data/modules/blake2b.ko
+
+echo > /dev/kmsg # empty line
+
+echo "++ Loading simple_filters module ++" > /dev/kmsg
+insmod /data/modules/simple_filters.ko
 
 echo > /dev/kmsg # empty line
 
