@@ -212,8 +212,12 @@ if [ $populate ]; then
 		mkdir -p /tmp/$$/data_part
 		mount -t ext4 ${diskname}${prefix}4 /tmp/$$/data_part
 		cp -rfv ../build-files/startup.sh /tmp/$$/data_part/
+		cp -rfv ../client/bitmapARGB.bin /tmp/$$/data_part/
 		mkdir -p /tmp/$$/data_part/modules
 		cp -rfv modules/*.ko /tmp/$$/data_part/modules/
+		mkdir -p /tmp/$$/data_part/bitstream
+		cp -rfv ../hardware_design/soc_project.runs/impl_1/zcu102_wrapper.bin /tmp/$$/data_part/bitstream/
+		cp -rfv ../hardware_design/soc_project.runs/impl_1/zcu102_wrapper.bit /tmp/$$/data_part/bitstream/
 		sync
 		umount /tmp/$$/data_part
 		rm -rf /tmp/$$/data_part
