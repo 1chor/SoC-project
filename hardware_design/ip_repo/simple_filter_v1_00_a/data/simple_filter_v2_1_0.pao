@@ -1,0 +1,10 @@
+##############################################################################
+## Filename:          /home/soc-lab/Desktop/SoC-Lab/SocLabPartialReconfigIot/hardware_design/pcores/simple_filter_v1_00_a/data/simple_filter_v2_1_0.pao
+## Description:       Peripheral Analysis Order
+## Date:              Tue Feb 19 16:12:40 2019 (by Create and Import Peripheral Wizard)
+##############################################################################
+
+lib proc_common_v3_00_a  all 
+lib axi_lite_ipif_v1_01_a  all 
+lib simple_filter_v1_00_a user_logic vhdl
+lib simple_filter_v1_00_a simple_filter vhdl

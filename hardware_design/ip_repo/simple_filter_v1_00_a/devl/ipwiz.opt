@@ -1,0 +1,8 @@
+-batch 
+-create simple_filter 
+-ver 1.00.a 
+-dir "/home/soc-lab/Desktop/SoC-Lab/SocLabPartialReconfigIot/hardware_design" 
+-lang vhdl 
+-bus axi4lite s 
+-reg 2 
+-xps 

@@ -1,0 +1,36 @@
+run
+-ifn user_logic.vhd 
+-ifmt VHDL 
+-iobuf no 
+-ofn netlist/user_logic.ngc 
+-ofmt NGC 
+-p XC7Z020-CLG484-1 
+-opt_mode Speed 
+-opt_level 1
+run
+-ifn red_filter_logic.vhd 
+-ifmt VHDL 
+-iobuf no 
+-ofn netlist/red_filter_logic.ngc 
+-ofmt NGC 
+-p XC7Z020-CLG484-1 
+-opt_mode Speed 
+-opt_level 1
+run
+-ifn green_filter_logic.vhd 
+-ifmt VHDL 
+-iobuf no 
+-ofn netlist/green_filter_logic.ngc 
+-ofmt NGC 
+-p XC7Z020-CLG484-1 
+-opt_mode Speed 
+-opt_level 1
+run
+-ifn blue_filter_logic.vhd 
+-ifmt VHDL 
+-iobuf no 
+-ofn netlist/blue_filter_logic.ngc 
+-ofmt NGC 
+-p XC7Z020-CLG484-1 
+-opt_mode Speed 
+-opt_level 1
