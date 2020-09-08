@@ -154,13 +154,15 @@ rm -rf hardware_design/soc_project.sdk/
 
 ########################################################################
 
-pretty_header "Generating Bitstreams"
+#pretty_header "Generating Netlists"
 
-cd hardware_design
-make -f scripts/Makefile bit
-cd ..
+#echo_green "Generating Netlists done"
 
-echo_green "Generating Bitstreams done"
+########################################################################
+
+#pretty_header "Generating Bitstreams"
+
+#echo_green "Generating Bitstreams done"
 
 ########################################################################
 
