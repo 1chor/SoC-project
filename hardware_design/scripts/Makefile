@@ -1,4 +1,9 @@
 XSCT ?= xsct
+VIVADO ?= vivado
+VIVADOFLAGS ?= -nojournal -nolog -mode batch -notrace
+
+bit:
+	$(VIVADO) $(VIVADOFLAGS) -source scripts/generate_project.tcl
 
 dts:
 	$(RM) -r ./soc_project.sdk/device-tree
