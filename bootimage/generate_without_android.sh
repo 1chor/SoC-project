@@ -201,7 +201,7 @@ pretty_header "Building FSBL"
 
 cd hardware_design
 
-if [ ! -d /soc_project.sdk/fsbl ]; then
+if [ ! -d soc_project.sdk/fsbl ]; then
 
 	#create fsbl project 
 	make -f scripts/Makefile fsbl
@@ -224,7 +224,7 @@ pretty_header "Building PMUFW"
 
 cd hardware_design
 
-if [ ! -d /soc_project.sdk/pmufw ]; then
+if [ ! -d soc_project.sdk/pmufw ]; then
 
 	#create pmufw project 
 	make -f scripts/Makefile pmufw
@@ -236,6 +236,8 @@ else
 	cd ../../..
 	
 fi
+
+cd ..
 
 echo_green "Building PMUFW done"
 
