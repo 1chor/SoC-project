@@ -1,6 +1,8 @@
-XSCT ?= xsct
 VIVADO ?= vivado
 VIVADOFLAGS ?= -nojournal -nolog -mode batch -notrace
+XSDK ?= xsdk
+XSDKFLAGS ?= -batch
+XSCT ?= xsct
 
 create:
 	$(VIVADO) $(VIVADOFLAGS) -source scripts/create_hw_project.tcl
@@ -10,6 +12,12 @@ bit:
 
 export:
 	$(VIVADO) $(VIVADOFLAGS) -source scripts/export_hw.tcl
+	
+fsbl:
+	$(XSDK) $(XSDKFLAGS) -source scripts/create_fsbl_project.tcl
+
+pmufw:
+	$(XSDK) $(XSDKFLAGS) -source scripts/create_pmufw_project.tcl
 	
 dts:
 	$(RM) -r ./soc_project.sdk/device-tree

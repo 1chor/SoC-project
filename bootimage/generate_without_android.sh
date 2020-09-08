@@ -157,9 +157,6 @@ if [ ! -d hardware_design/soc_project.srcs ]; then
 	
 fi
 
-#delete existing software design
-rm -rf hardware_design/soc_project.sdk/ 
-
 ########################################################################
 
 pretty_header "Generating Bitstreams"
@@ -185,7 +182,20 @@ echo_green "Exporting hardware design done"
 pretty_header "Building FSBL"
 
 cd hardware_design
-xsdk -batch -source ./scripts/create_fsbl_project.tcl
+
+if [ ! -d /soc_project.sdk/fsbl ]; then
+
+	#create fsbl project 
+	make -f scripts/Makefile fsbl
+	
+else
+	
+	cd soc_project.sdk/fsbl/Release
+	make
+	cd ../../..
+	
+fi
+
 cd ..
 
 echo_green "Building FSBL done"
@@ -195,8 +205,19 @@ echo_green "Building FSBL done"
 pretty_header "Building PMUFW"
 
 cd hardware_design
-xsdk -batch -source ./scripts/create_pmufw_project.tcl
-cd ..
+
+if [ ! -d /soc_project.sdk/pmufw ]; then
+
+	#create pmufw project 
+	make -f scripts/Makefile pmufw
+	
+else
+	
+	cd soc_project.sdk/pmufw/Release
+	make
+	cd ../../..
+	
+fi
 
 echo_green "Building PMUFW done"
 
