@@ -51,6 +51,24 @@ if [ "$1" == "clean" ]; then
 	find . \! -name '*.sh' -delete
 	cd ..
 	
+	if [ -d hardware_design/soc_project.sdk ]; then
+		#FSBL
+		cd hardware_design/soc_project.sdk/fsbl/Release
+		make clean
+		cd ../..
+		
+		#PMUFW
+		cd pmufw/Release
+		make clean
+		cd ../..
+		
+		#device-tree
+		cd device-tree
+		rm -f *
+		cd ../../../
+		
+	fi
+	
 	echo_green "Cleaning repository done"
 	
 	exit
