@@ -167,7 +167,7 @@ echo_green "Generating Bitstreams done"
 pretty_header "Exporting hardware design"
 
 cd hardware_design
-vivado -nolog -nojournal -mode batch -source scripts/export_hw.tcl
+make -f scripts/Makefile export
 cd ..
 
 echo_green "Exporting hardware design done"
