@@ -145,9 +145,17 @@ echo_green "Building u-boot done"
 
 ########################################################################
 
-#pretty_header "Creating hardware design"
+if [ ! -d hardware_design/soc_project.srcs ]; then
 
-#scripts/build_project.tcl
+	pretty_header "Creating hardware design"
+	
+	cd hardware_design
+	make -f scripts/Makefile create
+	cd ..
+
+	echo_green "Creating hardware design done"
+	
+fi
 
 #delete existing software design
 rm -rf hardware_design/soc_project.sdk/ 
