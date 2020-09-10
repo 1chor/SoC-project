@@ -35,13 +35,14 @@ if [ "$1" == "clean" ]; then
 	echo_green "Cleaning repository done"
 	
 	exit 
+
+elif [ "$1" != "only" ]; then
+	./generate_without_android.sh
 fi
 
-########################################################################
-
-./generate_without_android.sh
-
 cd ..
+
+########################################################################
 
 if [ ! -f repo ]; then
 
