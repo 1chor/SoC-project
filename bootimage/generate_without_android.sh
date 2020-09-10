@@ -129,13 +129,14 @@ pretty_header "Compiling kernel modules for PL devices"
 
 for driver in ./drivers/*/
 do
+	echo_blue "Compiling $driver module"
 	cd $driver
 	make
 	cd ../..
 done
 cp ./drivers/*/*.ko bootimage/modules
 
-#compiling hdmi modules
+echo_blue "Compiling hdmi modules"
 cd hdmi-modules
 export KERNEL_SRC=../mpsoc-linux-xlnx
 export SRC=.
