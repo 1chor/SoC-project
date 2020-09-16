@@ -12,6 +12,10 @@
 #include <linux/platform_device.h> /* Needed for Platform Driver Functions */
 #include <linux/uaccess.h>
 #include <linux/signal.h>
+#include <linux/of.h>
+#include <linux/of_device.h>
+#include <linux/of_irq.h>
+#include <linux/slab.h>
 
 /* Define Driver Name */
 #define DRIVER_NAME	"blake2b"
@@ -21,7 +25,6 @@
 #define FLAG_SINK_READY	0x80000000
 #define FLAG_HASH_READY 0x40000000
 #define FLAG_READY	0x20000000
-#define IRQF_PLAT 0x0 /* keep triggers that have been set by the platform */
 
 //unsigned long *base_addr;	/* Vitual Base Address */
 unsigned long *task_reg_addr;
@@ -36,6 +39,7 @@ static uint32_t filesize = 0;
 static uint32_t bytes_sent = 0;
 
 static uint32_t hash[16];
+static int irq;
 
 static irqreturn_t irq_handler(int irq, void* dev_id)
 {
@@ -47,8 +51,7 @@ static irqreturn_t irq_handler(int irq, void* dev_id)
 
 	if(status & FLAG_SINK_READY)
 	{
-		// uint32_t data;
-		char data;
+		uint32_t data;
 		mm_segment_t oldfs;
 		int ret;
 
@@ -64,8 +67,7 @@ static irqreturn_t irq_handler(int irq, void* dev_id)
 		//read from file
 		oldfs = get_fs();
 		set_fs(get_ds());
-		// ret = vfs_read(filp, &data, size, &filp->f_pos);
-		ret = vfs_read(filp, &data, size, &filp->f_pos);
+		ret = kernel_read(filp, &data, size, &filp->f_pos);
 		set_fs(oldfs);
 
 		if(size != ret)
@@ -224,11 +226,11 @@ static int blake2b_remove(struct platform_device *pdev)
 * kernel virtual memory space. Create an entry under /proc file system
 * and register file operations for that entry.
 */
-//static int __devinit blake2b_probe(struct platform_device *pdev)
 static int blake2b_probe(struct platform_device *pdev)
 {
 	struct proc_dir_entry *blake2b_proc_entry;
 	int ret = 0;
+			
 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
 	if (!res) {
 		dev_err(&pdev->dev, "No memory resource\n");
@@ -239,7 +241,7 @@ static int blake2b_probe(struct platform_device *pdev)
 		dev_err(&pdev->dev, "Cannot request IO\n");
 	return -ENXIO;
 	}
-	printk("base_addr is at %#x, device is %#x bytes long\n", res->start, remap_size);
+	printk("base_addr is at %#x, device is %#x bytes long\n", (unsigned int)res->start, (unsigned int)remap_size);
 	task_reg_addr = ioremap_nocache(res->start, 0x4);
 	message_reg_addr = ioremap_nocache(res->start+0x4, 0x4);
 	status_reg_addr = ioremap_nocache(res->start+0x8, 0x4);
@@ -260,9 +262,8 @@ static int blake2b_probe(struct platform_device *pdev)
 	printk(KERN_INFO DRIVER_NAME " probed at VA 0x%08lx\n",(unsigned long) task_reg_addr);
 	
 	printk("Registering IRQ\n");
-	// if (request_irq(IRQ_NUM,irq_handler,IRQF_DISABLED, DRIVER_NAME, NULL))
-	if (request_irq(IRQ_NUM,irq_handler, IRQF_PLAT, DRIVER_NAME, NULL))  //request timer interrupt
-	{
+	irq = irq_of_parse_and_map(pdev->dev.of_node, 0);
+	if (request_irq(irq, irq_handler, IRQF_TRIGGER_RISING, DRIVER_NAME, &pdev->dev)) {
 		ret = -EBUSY;
 		goto err_register_irq;
 	}
@@ -290,13 +291,12 @@ static void blake2b_shutdown(struct platform_device *pdev)
 	if(filp > 0)
 		filp_close(filp, 0);
 	//iowrite32(0, base_addr);
-	free_irq(IRQ_NUM, NULL);			// unregister timer interrupt
+	free_irq(of_irq_get(pdev->dev.of_node, 0), &pdev->dev);			// unregister timer interrupt
 	//unregister_chrdev(SYSCALL_MAJOR, "blake2b");	// unregister device
 	printk("Exit blake2b Module. \n");	// print unload message
 }
 
 /* device match table to match with device node in device tree */
-//static const struct of_device_id blake2b_of_match[] __devinitconst = {
 static const struct of_device_id blake2b_of_match[] = {
 	{.compatible = "xlnx,blake2b-1.0"},
 	{},
@@ -306,15 +306,13 @@ MODULE_DEVICE_TABLE(of, blake2b_of_match);
 
 /* platform driver structure for blake2b driver */
 static struct platform_driver blake2b_driver = {
+	.probe = blake2b_probe,
+	.remove = blake2b_remove,
 	.driver = {
 		.name = DRIVER_NAME,
 		.owner = THIS_MODULE,
 		.of_match_table = blake2b_of_match},
-		.probe = blake2b_probe,
-		.remove = blake2b_remove,
 		.shutdown = blake2b_shutdown
-		// .remove = __devexit_p(blake2b_remove),
-		// .shutdown = __devexit_p(blake2b_shutdown)
 };
 
 /* Register blake2b platform driver */
