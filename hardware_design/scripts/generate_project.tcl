@@ -4,6 +4,30 @@ set JOBS 4
 open_project soc_project.xpr
 
 # Set status
+set STATUS [get_property STATUS [get_runs OOC_synth]]
+set REFRESH [get_property NEEDS_REFRESH [get_runs OOC_synth]]
+
+# Output status for debugging
+#puts $STATUS
+#puts $REFRESH
+
+if {$STATUS != "synth_design Complete!" || $REFRESH == 1} {
+	
+	puts "\n+++++++++++++++++++++++"
+	puts "++ Run OOC synthesis ++"
+	puts "+++++++++++++++++++++++\n"
+	
+	reset_run OOC_synth
+	launch_runs OOC_synth -jobs $JOBS
+	wait_on_run OOC_synth
+	
+} else {
+	puts "\n+++++++++++++++++++++++++++++++"
+	puts "++ OOC Synthesis up-to-date! ++"
+	puts "+++++++++++++++++++++++++++++++\n"
+}
+
+# Set status
 set STATUS [get_property STATUS [get_runs synth_1]]
 set REFRESH [get_property NEEDS_REFRESH [get_runs synth_1]]
 
