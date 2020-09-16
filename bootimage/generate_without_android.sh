@@ -72,6 +72,9 @@ if [ "$1" == "clean" ]; then
 	echo_green "Cleaning repository done"
 	
 	exit
+	
+elif [ "$1" == "skip_kernel" ]; then
+	skip=1
 fi
 
 ########################################################################
@@ -104,63 +107,75 @@ echo_green "Checking for required Xilinx tools done"
 
 ########################################################################
 
-pretty_header "Building Linux Kernel"
+if [ "$skip" != "1" ]; then
 
-#setup environment
-export COMPILER=aarch64-linux-gnu-gcc
-export ARCH=arm64
-export CROSS_COMPILE=aarch64-linux-gnu-
+	pretty_header "Building Linux Kernel"
 
-#load kernel config
-cd mpsoc-linux-xlnx
-make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- xilinx_zynqmp_android_defconfig
+	#setup environment
+	export COMPILER=aarch64-linux-gnu-gcc
+	export ARCH=arm64
+	export CROSS_COMPILE=aarch64-linux-gnu-
 
-#build
-make -j4
-cp arch/arm64/boot/Image ../bootimage/
+	#load kernel config
+	cd mpsoc-linux-xlnx
+	make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- xilinx_zynqmp_android_defconfig
 
-cd ..
+	#build
+	make -j4
+	cp arch/arm64/boot/Image ../bootimage/
 
-echo_green "Building Linux Kernel done"
+	cd ..
 
-########################################################################
+	echo_green "Building Linux Kernel done"
 
-pretty_header "Compiling kernel modules for PL devices"
-
-for driver in ./drivers/*/
-do
-	echo_blue "Compiling $driver module"
-	cd $driver
-	make
-	cd ../..
-done
-cp ./drivers/*/*.ko bootimage/modules
-
-echo_blue "Compiling hdmi modules"
-cd hdmi-modules
-export KERNEL_SRC=../mpsoc-linux-xlnx
-export SRC=.
-make all
-cp hdmi/xilinx-vphy.ko ../bootimage/modules
-cp hdmi/xilinx-hdmi-tx.ko ../bootimage/modules
-cp hdmi/xilinx-hdmi-rx.ko ../bootimage/modules
-cp misc/dp159.ko ../bootimage/modules
-cp clk/si5324.ko ../bootimage/modules
-cd ..
-
-echo_green "Compiling kernel modules for PL devices done"
+fi
 
 ########################################################################
 
-pretty_header "Building u-boot"
+if [ "$skip" != "1" ]; then
 
-cd mpsoc-u-boot-xlnx
-make CROSS_COMPILE=aarch64-linux-gnu- xilinx_zynqmp_zcu102_rev1_0_defconfig
-make CROSS_COMPILE=aarch64-linux-gnu-
-cp u-boot.elf ../bootimage/u-boot.elf
-cd ..
+	pretty_header "Compiling kernel modules for PL devices"
 
-echo_green "Building u-boot done"
+	for driver in ./drivers/*/
+	do
+		echo_blue "Compiling $driver module"
+		cd $driver
+		make
+		cd ../..
+	done
+	cp ./drivers/*/*.ko bootimage/modules
+
+	echo_blue "Compiling hdmi modules"
+	cd hdmi-modules
+	export KERNEL_SRC=../mpsoc-linux-xlnx
+	export SRC=.
+	make all
+	cp hdmi/xilinx-vphy.ko ../bootimage/modules
+	cp hdmi/xilinx-hdmi-tx.ko ../bootimage/modules
+	cp hdmi/xilinx-hdmi-rx.ko ../bootimage/modules
+	cp misc/dp159.ko ../bootimage/modules
+	cp clk/si5324.ko ../bootimage/modules
+	cd ..
+
+	echo_green "Compiling kernel modules for PL devices done"
+
+fi
+
+########################################################################
+
+if [ "$skip" != "1" ]; then
+
+	pretty_header "Building u-boot"
+
+	cd mpsoc-u-boot-xlnx
+	make CROSS_COMPILE=aarch64-linux-gnu- xilinx_zynqmp_zcu102_rev1_0_defconfig
+	make CROSS_COMPILE=aarch64-linux-gnu-
+	cp u-boot.elf ../bootimage/u-boot.elf
+	cd ..
+
+	echo_green "Building u-boot done"
+
+fi
 
 ########################################################################
 
