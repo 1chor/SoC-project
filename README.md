@@ -36,11 +36,12 @@
  ├── arm-trusted-firmware	# contains arm firmware files
  ├── bootimage 			# contains built files
  ├── build-files 		# contains necessary files
- ├── client 			# contains andoid app
+ ├── client 			# contains android app
  ├── device-tree-xlnx 		# contains device-tree files
  ├── drivers 			# contains kernel modules for custom hardware components
  ├── hardware_design		# contains the hardware design
  ├── hdmi-modules		# contains hdmi kernel modules
+ ├── mpsoc-linux-xlnx		# contains kernel files
  ├── mpsoc-u-boot-xlnx		# contains u-boot files
  ├── prebuilt			# contains prebuilt files ready to use
  ├── report			# contains project report
@@ -50,7 +51,7 @@
 ## Project progress
  - [X] Make Android bootable
  - [ ] Enable HDMI output 
- - [ ] Add custom hardware
+ - [X] Add custom hardware
  - [ ] Enable dynamic partial reconfiguration
  
 ## Building the code
