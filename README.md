@@ -53,6 +53,8 @@
  - [ ] Enable HDMI output 
  - [X] Add custom hardware
  - [ ] Enable dynamic partial reconfiguration
+ - [ ] Customize the Android app and make it work
+ - [ ] Add server and make it work
  
 ## Building the code
  There are two script files in the bootimage directory:
