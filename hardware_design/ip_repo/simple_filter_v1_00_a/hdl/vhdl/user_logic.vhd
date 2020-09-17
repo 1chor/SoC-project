@@ -145,15 +145,16 @@ architecture IMP of user_logic is
 
   component filter_logic is
 
-	  generic(
+      --Due to the partial reconfiguration,no generic parameters may be used
+	  --generic(
 		-- Width of S_AXI data bus
-		C_S_AXI_DATA_WIDTH	: integer	:= 32
-	  );
+		--C_S_AXI_DATA_WIDTH	: integer	:= 32
+	  --);
 	  port(
 	    clk 	    : in std_logic;
 	    rst         : in std_logic;
-	    regin   	: in std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
-	    regout   	: out std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0)  
+	    regin   	: in std_logic_vector(31 downto 0);
+	    regout   	: out std_logic_vector(31 downto 0)  
 	);
 	
 	end component filter_logic;
@@ -164,9 +165,10 @@ begin
 
   --  Component instantiation.
 	filter_logic_0: filter_logic
-		generic map(
-			C_S_AXI_DATA_WIDTH	=> C_SLV_DWIDTH
-		)
+	    --Due to the partial reconfiguration,no generic parameters may be used
+		--generic map(
+			--C_S_AXI_DATA_WIDTH	=> C_SLV_DWIDTH
+		--)
 		port map (
 			clk => Bus2IP_Clk,
 			rst => Bus2IP_Resetn,
