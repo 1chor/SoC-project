@@ -135,6 +135,11 @@ fi
 if [ "$skip" != "1" ]; then
 
 	pretty_header "Compiling kernel modules for PL devices"
+	
+	# Create folder
+	if [ ! -d bootimage/modules ]; then
+		mkdir bootimage/modules
+	fi
 
 	for driver in ./drivers/*/
 	do
@@ -197,6 +202,15 @@ pretty_header "Generating Bitstreams"
 
 cd hardware_design
 make -f scripts/Makefile bit
+
+# Create folder
+if [ ! -d bootimage/bitstreams ]; then
+	mkdir bootimage/bitstreams
+fi
+	
+cp ./soc_project.runs/impl_1/simple_filter_0_USER_LOGIC_I_filter_logic_0_blue_filter_partial.bin ../bootimage/bitstreams/blue_filter.bin
+cp ./soc_project.runs/child_0_impl_1/simple_filter_0_USER_LOGIC_I_filter_logic_0_green_filter_partial.bin ../bootimage/bitstreams/green_filter.bin
+cp ./soc_project.runs/child_1_impl_1/simple_filter_0_USER_LOGIC_I_filter_logic_0_red_filter_partial.bin ../bootimage/bitstreams/red_filter.bin
 cd ..
 
 echo_green "Generating Bitstreams done"
