@@ -200,13 +200,13 @@ fi
 
 pretty_header "Generating Bitstreams"
 
-cd hardware_design
-make -f scripts/Makefile bit
-
 # Create folder
 if [ ! -d bootimage/bitstreams ]; then
 	mkdir bootimage/bitstreams
 fi
+
+cd hardware_design
+make -f scripts/Makefile bit
 	
 cp ./soc_project.runs/impl_1/simple_filter_0_USER_LOGIC_I_filter_logic_0_blue_filter_partial.bin ../bootimage/bitstreams/blue_filter.bin
 cp ./soc_project.runs/child_0_impl_1/simple_filter_0_USER_LOGIC_I_filter_logic_0_green_filter_partial.bin ../bootimage/bitstreams/green_filter.bin
