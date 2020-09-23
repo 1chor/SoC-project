@@ -136,7 +136,7 @@ if [ "$skip" != "1" ]; then
 
 	pretty_header "Compiling kernel modules for PL devices"
 	
-	# Create folder
+	#create folder
 	if [ ! -d bootimage/modules ]; then
 		mkdir bootimage/modules
 	fi
@@ -200,7 +200,7 @@ fi
 
 pretty_header "Generating Bitstreams"
 
-# Create folder
+#create folder
 if [ ! -d bootimage/bitstreams ]; then
 	mkdir bootimage/bitstreams
 fi
@@ -279,6 +279,10 @@ pretty_header "Compiling device tree"
 cd hardware_design
 make -f scripts/Makefile dts
 
+#load pl.dtsi
+#includes modifications for simple_filter (PR)
+cp ../build-files/devicetree/pl.dtsi soc_project.sdk/device-tree/
+  
 #compiling a device tree blob
 make -f scripts/Makefile compile
 cp soc_project.sdk/device-tree/system-top.dtb ../bootimage/zynqmp-zcu102-rev1.0.dtb
