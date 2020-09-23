@@ -185,7 +185,6 @@ if [ $populate ]; then
 		cp -rfv BOOT.BIN /tmp/$$/boot_part/
 		cp -rfv Image /tmp/$$/boot_part/
 		cp -rfv *.dtb /tmp/$$/boot_part/
-		cp -rfv *.bit /tmp/$$/boot_part/
 		cp -rfv ../android/out/target/product/$product/boot/uEnv.txt /tmp/$$/boot_part/uEnv.txt
 		cp -rfv uramdisk.img /tmp/$$/boot_part/uramdisk.img
 		sync
@@ -215,9 +214,8 @@ if [ $populate ]; then
 		cp -rfv ../client/bitmapARGB.bin /tmp/$$/data_part/
 		mkdir -p /tmp/$$/data_part/modules
 		cp -rfv modules/*.ko /tmp/$$/data_part/modules/
-		mkdir -p /tmp/$$/data_part/bitstream
-		cp -rfv ../hardware_design/soc_project.runs/impl_1/zcu102_wrapper.bin /tmp/$$/data_part/bitstream/
-		cp -rfv ../hardware_design/soc_project.runs/impl_1/zcu102_wrapper.bit /tmp/$$/data_part/bitstream/
+		mkdir -p /tmp/$$/data_part/bitstreams
+		cp -rfv bitstreams/*.bin /tmp/$$/data_part/bitstreams/
 		sync
 		umount /tmp/$$/data_part
 		rm -rf /tmp/$$/data_part
@@ -231,7 +229,7 @@ fi
 
 if [ $eject ]; then 
 	pretty_header "Eject SD card"
-	yn="y"
+	yn=y
 else
 	pretty_header "Eject SD card?"
 	read -p "Do you want to eject the SD card (y/n)? " yn # read user input
