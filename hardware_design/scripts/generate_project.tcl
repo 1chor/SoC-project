@@ -1,7 +1,9 @@
 # define number of parallel jobs
 set JOBS 4
 
-if {[current_project] != "soc_project" } {
+[catch {current_project} project]
+
+if {$project != "soc_project" } {
 	open_project soc_project.xpr
 } else {
 	puts "INFO: Project is already open"
