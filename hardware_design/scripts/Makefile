@@ -4,6 +4,9 @@ XSDK ?= xsdk
 XSDKFLAGS ?= -batch
 XSCT ?= xsct
 
+open:
+	$(VIVADO) $(VIVADOFLAGS) -source scripts/open_project.tcl
+	
 create:
 	$(VIVADO) $(VIVADOFLAGS) -source scripts/create_hw_project.tcl
 
