@@ -34,4 +34,6 @@ compile:
 	./../mpsoc-linux-xlnx/scripts/dtc/dtc -I dts -O dtb -o ./soc_project.sdk/device-tree/system-top.dtb ./soc_project.sdk/device-tree/system-top.dts.tmp
 	
 clean:
-	$(RM) -r ./soc_project.sdk/device-tree
+	$(RM) -r ./soc_project.*
+	$(RM) -r ./.Xil
+	
