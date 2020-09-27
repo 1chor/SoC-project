@@ -1,7 +1,12 @@
 # define number of parallel jobs
 set JOBS 4
 
-open_project soc_project.xpr
+if {[current_project] != "soc_project" } {
+	open_project soc_project.xpr
+} else {
+	puts "INFO: Project is already open"
+	set CLOSE false
+}
 
 puts "\n++++++++++++++++++++++"
 puts "++ Run Syntax Check ++"
@@ -141,4 +146,8 @@ if {$STATUS == "route_design Complete!" && $STATUS_c0 == "route_design Complete!
 	puts "+++++++++++++++++++++++++++\n"
 }
 
-close_project
+if {$CLOSE == false} { 
+	puts "INFO: Project is still open"
+} else {
+	close_project
+}
