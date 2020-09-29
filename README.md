@@ -52,7 +52,7 @@
  - [X] Make Android bootable
  - [ ] Enable HDMI output 
  - [X] Add custom hardware
- - [ ] Enable dynamic partial reconfiguration
+ - [X] Enable dynamic partial reconfiguration
  - [ ] Customize the Android app and make it work
  - [ ] Add server and make it work
  
