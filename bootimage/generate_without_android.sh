@@ -208,12 +208,24 @@ fi
 cd hardware_design
 make -f scripts/Makefile bit
 	
-cp ./soc_project.runs/impl_1/simple_filter_0_USER_LOGIC_I_filter_logic_0_blue_filter_partial.bin ../bootimage/bitstreams/blue_filter.bin
-cp ./soc_project.runs/child_0_impl_1/simple_filter_0_USER_LOGIC_I_filter_logic_0_green_filter_partial.bin ../bootimage/bitstreams/green_filter.bin
-cp ./soc_project.runs/child_1_impl_1/simple_filter_0_USER_LOGIC_I_filter_logic_0_red_filter_partial.bin ../bootimage/bitstreams/red_filter.bin
+cp ./soc_project.runs/impl_1/simple_filter_0_USER_LOGIC_I_filter_logic_0_blue_filter_partial.bit generated_bitstreams/blue_filter.bit
+cp ./soc_project.runs/child_0_impl_1/simple_filter_0_USER_LOGIC_I_filter_logic_0_green_filter_partial.bit generated_bitstreams/green_filter.bit
+cp ./soc_project.runs/child_1_impl_1/simple_filter_0_USER_LOGIC_I_filter_logic_0_red_filter_partial.bit generated_bitstreams/red_filter.bit
 cd ..
 
 echo_green "Generating Bitstreams done"
+
+########################################################################
+
+pretty_header "Converting Bitstreams"
+
+cd hardware_design/generated_bitstreams
+bootgen -image blue_filter.bif -arch zynqmp -o ../../bootimage/bitstreams/blue_filter.bin -w
+bootgen -image green_filter.bif -arch zynqmp -o ../../bootimage/bitstreams/green_filter.bin -w
+bootgen -image red_filter.bif -arch zynqmp -o ../../bootimage/bitstreams/red_filter.bin -w
+cd ../..
+
+echo_green "Converting Bitstreams"
 
 ########################################################################
 

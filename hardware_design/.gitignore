@@ -18,6 +18,12 @@
 !vivado/ip_repo/
 
 #########
+#bif files
+#########
+!generated_bitstreams/*.bif
+generated_bitstreams/*.bit
+
+#########
 #Project files
 #########
 *.xpr
