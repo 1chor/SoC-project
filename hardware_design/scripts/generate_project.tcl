@@ -5,6 +5,7 @@ set JOBS 4
 
 if {$project != "soc_project" } {
 	open_project soc_project.xpr
+	set CLOSE true
 } else {
 	puts "INFO: Project is already open"
 	set CLOSE false
