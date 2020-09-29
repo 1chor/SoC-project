@@ -152,6 +152,13 @@
 		M05_AXI: M05_AXI@98000000 {
 			reg = <0x0 0x98000000 0x0 0x10000>;
 			compatible = "xlnx,simple-filter-1.0";
+			xlnx,dphase-timeout = <0x8>;
+			xlnx,num-mem = <0x1>;
+			xlnx,num-reg = <0x1>;
+			xlnx,s-axi-min-size = <0x000001FF>;
+			xlnx,slv-awidth = <0x20>;
+			xlnx,slv-dwidth = <0x20>;
+			xlnx,use-wstrb = <0x0>;
 		};
 	};
 };
