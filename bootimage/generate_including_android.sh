@@ -137,6 +137,7 @@ cd build-files/ramdisk
 
 ./modify_ramdisk.sh extract
 cp init.rc ramdisk/init.rc
+mkdir -p ramdisk/lib/firmware
 ./modify_ramdisk.sh wrap
 cp uramdisk.img ../../bootimage/
 
