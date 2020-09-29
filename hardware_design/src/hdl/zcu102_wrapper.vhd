@@ -1,7 +1,7 @@
 --Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2018.1 (lin64) Build 2188600 Wed Apr  4 18:39:19 MDT 2018
---Date        : Thu Sep 17 19:32:56 2020
+--Date        : Tue Sep 29 14:22:07 2020
 --Host        : soc running 64-bit Ubuntu 18.04.5 LTS
 --Command     : generate_target zcu102_wrapper.bd
 --Design      : zcu102_wrapper
@@ -73,49 +73,28 @@ architecture STRUCTURE of zcu102_wrapper is
     TX_DDC_OUT_sda_i : in STD_LOGIC;
     TX_DDC_OUT_sda_o : out STD_LOGIC;
     TX_DDC_OUT_sda_t : out STD_LOGIC;
-    M05_AXI_awaddr : out STD_LOGIC_VECTOR ( 39 downto 0 );
-    M05_AXI_awvalid : out STD_LOGIC_VECTOR ( 0 to 0 );
-    M05_AXI_awready : in STD_LOGIC_VECTOR ( 0 to 0 );
-    M05_AXI_wdata : out STD_LOGIC_VECTOR ( 31 downto 0 );
-    M05_AXI_wstrb : out STD_LOGIC_VECTOR ( 3 downto 0 );
-    M05_AXI_wvalid : out STD_LOGIC_VECTOR ( 0 to 0 );
-    M05_AXI_wready : in STD_LOGIC_VECTOR ( 0 to 0 );
-    M05_AXI_bresp : in STD_LOGIC_VECTOR ( 1 downto 0 );
-    M05_AXI_bvalid : in STD_LOGIC_VECTOR ( 0 to 0 );
-    M05_AXI_bready : out STD_LOGIC_VECTOR ( 0 to 0 );
-    M05_AXI_araddr : out STD_LOGIC_VECTOR ( 39 downto 0 );
-    M05_AXI_arvalid : out STD_LOGIC_VECTOR ( 0 to 0 );
-    M05_AXI_arready : in STD_LOGIC_VECTOR ( 0 to 0 );
-    M05_AXI_rdata : in STD_LOGIC_VECTOR ( 31 downto 0 );
-    M05_AXI_rresp : in STD_LOGIC_VECTOR ( 1 downto 0 );
-    M05_AXI_rvalid : in STD_LOGIC_VECTOR ( 0 to 0 );
-    M05_AXI_rready : out STD_LOGIC_VECTOR ( 0 to 0 );
+    -- S_AXI interface for simple_filter
     s_axi_aclk : out STD_LOGIC;
     peripheral_aresetn : out STD_LOGIC_VECTOR ( 0 to 0 );
-    M05_AXI_arburst : out STD_LOGIC_VECTOR ( 1 downto 0 );
-    M05_AXI_arcache : out STD_LOGIC_VECTOR ( 3 downto 0 );
-    M05_AXI_arid : out STD_LOGIC_VECTOR ( 15 downto 0 );
-    M05_AXI_arlen : out STD_LOGIC_VECTOR ( 7 downto 0 );
-    M05_AXI_arlock : out STD_LOGIC_VECTOR ( 0 to 0 );
-    M05_AXI_arprot : out STD_LOGIC_VECTOR ( 2 downto 0 );
-    M05_AXI_arqos : out STD_LOGIC_VECTOR ( 3 downto 0 );
-    M05_AXI_arregion : out STD_LOGIC_VECTOR ( 3 downto 0 );
-    M05_AXI_arsize : out STD_LOGIC_VECTOR ( 2 downto 0 );
-    M05_AXI_aruser : out STD_LOGIC_VECTOR ( 15 downto 0 );
-    M05_AXI_awburst : out STD_LOGIC_VECTOR ( 1 downto 0 );
-    M05_AXI_awcache : out STD_LOGIC_VECTOR ( 3 downto 0 );
-    M05_AXI_awid : out STD_LOGIC_VECTOR ( 15 downto 0 );
-    M05_AXI_awlen : out STD_LOGIC_VECTOR ( 7 downto 0 );
-    M05_AXI_awlock : out STD_LOGIC_VECTOR ( 0 to 0 );
+    M05_AXI_awaddr : out STD_LOGIC_VECTOR ( 31 downto 0 );
     M05_AXI_awprot : out STD_LOGIC_VECTOR ( 2 downto 0 );
-    M05_AXI_awqos : out STD_LOGIC_VECTOR ( 3 downto 0 );
-    M05_AXI_awregion : out STD_LOGIC_VECTOR ( 3 downto 0 );
-    M05_AXI_awsize : out STD_LOGIC_VECTOR ( 2 downto 0 );
-    M05_AXI_awuser : out STD_LOGIC_VECTOR ( 15 downto 0 );
-    M05_AXI_bid : in STD_LOGIC_VECTOR ( 15 downto 0 );
-    M05_AXI_rid : in STD_LOGIC_VECTOR ( 15 downto 0 );
-    M05_AXI_rlast : in STD_LOGIC_VECTOR ( 0 to 0 );
-    M05_AXI_wlast : out STD_LOGIC_VECTOR ( 0 to 0 )
+    M05_AXI_awvalid : out STD_LOGIC;
+    M05_AXI_awready : in STD_LOGIC;
+    M05_AXI_wdata : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    M05_AXI_wstrb : out STD_LOGIC_VECTOR ( 3 downto 0 );
+    M05_AXI_wvalid : out STD_LOGIC;
+    M05_AXI_wready : in STD_LOGIC;
+    M05_AXI_bresp : in STD_LOGIC_VECTOR ( 1 downto 0 );
+    M05_AXI_bvalid : in STD_LOGIC;
+    M05_AXI_bready : out STD_LOGIC;
+    M05_AXI_araddr : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    M05_AXI_arprot : out STD_LOGIC_VECTOR ( 2 downto 0 );
+    M05_AXI_arvalid : out STD_LOGIC;
+    M05_AXI_arready : in STD_LOGIC;
+    M05_AXI_rdata : in STD_LOGIC_VECTOR ( 31 downto 0 );
+    M05_AXI_rresp : in STD_LOGIC_VECTOR ( 1 downto 0 );
+    M05_AXI_rvalid : in STD_LOGIC;
+    M05_AXI_rready : out STD_LOGIC
   );
   end component zcu102;
   
@@ -213,47 +192,25 @@ architecture STRUCTURE of zcu102_wrapper is
   signal s_axi_aclk : STD_LOGIC;
   signal peripheral_aresetn : STD_LOGIC_VECTOR ( 0 to 0 );
   -- S_AXI interface
-  signal M05_AXI_araddr : STD_LOGIC_VECTOR ( 39 downto 0 );
-  signal M05_AXI_arburst : STD_LOGIC_VECTOR ( 1 downto 0 );
-  signal M05_AXI_arcache : STD_LOGIC_VECTOR ( 3 downto 0 );
-  signal M05_AXI_arid : STD_LOGIC_VECTOR ( 15 downto 0 );
-  signal M05_AXI_arlen : STD_LOGIC_VECTOR ( 7 downto 0 );
-  signal M05_AXI_arlock : STD_LOGIC_VECTOR ( 0 to 0 );
-  signal M05_AXI_arprot : STD_LOGIC_VECTOR ( 2 downto 0 );
-  signal M05_AXI_arqos : STD_LOGIC_VECTOR ( 3 downto 0 );
-  signal M05_AXI_arready : STD_LOGIC_VECTOR ( 0 to 0 );
-  signal M05_AXI_arregion : STD_LOGIC_VECTOR ( 3 downto 0 );
-  signal M05_AXI_arsize : STD_LOGIC_VECTOR ( 2 downto 0 );
-  signal M05_AXI_aruser : STD_LOGIC_VECTOR ( 15 downto 0 );
-  signal M05_AXI_arvalid : STD_LOGIC_VECTOR ( 0 to 0 );
-  signal M05_AXI_awaddr : STD_LOGIC_VECTOR ( 39 downto 0 );
-  signal M05_AXI_awburst : STD_LOGIC_VECTOR ( 1 downto 0 );
-  signal M05_AXI_awcache : STD_LOGIC_VECTOR ( 3 downto 0 );
-  signal M05_AXI_awid : STD_LOGIC_VECTOR ( 15 downto 0 );
-  signal M05_AXI_awlen : STD_LOGIC_VECTOR ( 7 downto 0 );
-  signal M05_AXI_awlock : STD_LOGIC_VECTOR ( 0 to 0 );
+  signal M05_AXI_awaddr : STD_LOGIC_VECTOR ( 31 downto 0 );
   signal M05_AXI_awprot : STD_LOGIC_VECTOR ( 2 downto 0 );
-  signal M05_AXI_awqos : STD_LOGIC_VECTOR ( 3 downto 0 );
-  signal M05_AXI_awready : STD_LOGIC_VECTOR ( 0 to 0 );
-  signal M05_AXI_awregion : STD_LOGIC_VECTOR ( 3 downto 0 );
-  signal M05_AXI_awsize : STD_LOGIC_VECTOR ( 2 downto 0 );
-  signal M05_AXI_awuser : STD_LOGIC_VECTOR ( 15 downto 0 );
-  signal M05_AXI_awvalid : STD_LOGIC_VECTOR ( 0 to 0 );
-  signal M05_AXI_bid : STD_LOGIC_VECTOR ( 15 downto 0 );
-  signal M05_AXI_bready : STD_LOGIC_VECTOR ( 0 to 0 );
-  signal M05_AXI_bresp : STD_LOGIC_VECTOR ( 1 downto 0 );
-  signal M05_AXI_bvalid : STD_LOGIC_VECTOR ( 0 to 0 );
-  signal M05_AXI_rdata : STD_LOGIC_VECTOR ( 31 downto 0 );
-  signal M05_AXI_rid : STD_LOGIC_VECTOR ( 15 downto 0 );
-  signal M05_AXI_rlast : STD_LOGIC_VECTOR ( 0 to 0 );
-  signal M05_AXI_rready : STD_LOGIC_VECTOR ( 0 to 0 );
-  signal M05_AXI_rresp : STD_LOGIC_VECTOR ( 1 downto 0 );
-  signal M05_AXI_rvalid : STD_LOGIC_VECTOR ( 0 to 0 );
+  signal M05_AXI_awvalid : STD_LOGIC;
+  signal M05_AXI_awready : STD_LOGIC;
   signal M05_AXI_wdata : STD_LOGIC_VECTOR ( 31 downto 0 );
-  signal M05_AXI_wlast : STD_LOGIC_VECTOR ( 0 to 0 );
-  signal M05_AXI_wready : STD_LOGIC_VECTOR ( 0 to 0 );
   signal M05_AXI_wstrb : STD_LOGIC_VECTOR ( 3 downto 0 );
-  signal M05_AXI_wvalid : STD_LOGIC_VECTOR ( 0 to 0 );
+  signal M05_AXI_wvalid : STD_LOGIC;
+  signal M05_AXI_wready : STD_LOGIC;
+  signal M05_AXI_bresp : STD_LOGIC_VECTOR ( 1 downto 0 );
+  signal M05_AXI_bvalid : STD_LOGIC;
+  signal M05_AXI_bready : STD_LOGIC;
+  signal M05_AXI_araddr : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal M05_AXI_arprot : STD_LOGIC_VECTOR ( 2 downto 0 );
+  signal M05_AXI_arvalid : STD_LOGIC;
+  signal M05_AXI_arready : STD_LOGIC;
+  signal M05_AXI_rdata : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal M05_AXI_rresp : STD_LOGIC_VECTOR ( 1 downto 0 );
+  signal M05_AXI_rvalid : STD_LOGIC;
+  signal M05_AXI_rready : STD_LOGIC;
 
 begin
 
@@ -316,47 +273,25 @@ begin
       HDMI_TX_DAT_N_OUT(2 downto 0) => HDMI_TX_DAT_N_OUT(2 downto 0),
       HDMI_TX_DAT_P_OUT(2 downto 0) => HDMI_TX_DAT_P_OUT(2 downto 0),
       LED(7 downto 0) => LED(7 downto 0),
-      M05_AXI_araddr(39 downto 0) => M05_AXI_araddr(39 downto 0),
-      M05_AXI_arburst(1 downto 0) => M05_AXI_arburst(1 downto 0),
-      M05_AXI_arcache(3 downto 0) => M05_AXI_arcache(3 downto 0),
-      M05_AXI_arid(15 downto 0) => M05_AXI_arid(15 downto 0),
-      M05_AXI_arlen(7 downto 0) => M05_AXI_arlen(7 downto 0),
-      M05_AXI_arlock(0) => M05_AXI_arlock(0),
+      M05_AXI_araddr(31 downto 0) => M05_AXI_araddr(31 downto 0),
       M05_AXI_arprot(2 downto 0) => M05_AXI_arprot(2 downto 0),
-      M05_AXI_arqos(3 downto 0) => M05_AXI_arqos(3 downto 0),
-      M05_AXI_arready(0) => M05_AXI_arready(0),
-      M05_AXI_arregion(3 downto 0) => M05_AXI_arregion(3 downto 0),
-      M05_AXI_arsize(2 downto 0) => M05_AXI_arsize(2 downto 0),
-      M05_AXI_aruser(15 downto 0) => M05_AXI_aruser(15 downto 0),
-      M05_AXI_arvalid(0) => M05_AXI_arvalid(0),
-      M05_AXI_awaddr(39 downto 0) => M05_AXI_awaddr(39 downto 0),
-      M05_AXI_awburst(1 downto 0) => M05_AXI_awburst(1 downto 0),
-      M05_AXI_awcache(3 downto 0) => M05_AXI_awcache(3 downto 0),
-      M05_AXI_awid(15 downto 0) => M05_AXI_awid(15 downto 0),
-      M05_AXI_awlen(7 downto 0) => M05_AXI_awlen(7 downto 0),
-      M05_AXI_awlock(0) => M05_AXI_awlock(0),
+      M05_AXI_arready => M05_AXI_arready,
+      M05_AXI_arvalid => M05_AXI_arvalid,
+      M05_AXI_awaddr(31 downto 0) => M05_AXI_awaddr(31 downto 0),
       M05_AXI_awprot(2 downto 0) => M05_AXI_awprot(2 downto 0),
-      M05_AXI_awqos(3 downto 0) => M05_AXI_awqos(3 downto 0),
-      M05_AXI_awready(0) => M05_AXI_awready(0),
-      M05_AXI_awregion(3 downto 0) => M05_AXI_awregion(3 downto 0),
-      M05_AXI_awsize(2 downto 0) => M05_AXI_awsize(2 downto 0),
-      M05_AXI_awuser(15 downto 0) => M05_AXI_awuser(15 downto 0),
-      M05_AXI_awvalid(0) => M05_AXI_awvalid(0),
-      M05_AXI_bid(15 downto 0) => M05_AXI_bid(15 downto 0),
-      M05_AXI_bready(0) => M05_AXI_bready(0),
+      M05_AXI_awready => M05_AXI_awready,
+      M05_AXI_awvalid => M05_AXI_awvalid,
+      M05_AXI_bready => M05_AXI_bready,
       M05_AXI_bresp(1 downto 0) => M05_AXI_bresp(1 downto 0),
-      M05_AXI_bvalid(0) => M05_AXI_bvalid(0),
+      M05_AXI_bvalid => M05_AXI_bvalid,
       M05_AXI_rdata(31 downto 0) => M05_AXI_rdata(31 downto 0),
-      M05_AXI_rid(15 downto 0) => M05_AXI_rid(15 downto 0),
-      M05_AXI_rlast(0) => M05_AXI_rlast(0),
-      M05_AXI_rready(0) => M05_AXI_rready(0),
+      M05_AXI_rready => M05_AXI_rready,
       M05_AXI_rresp(1 downto 0) => M05_AXI_rresp(1 downto 0),
-      M05_AXI_rvalid(0) => M05_AXI_rvalid(0),
+      M05_AXI_rvalid => M05_AXI_rvalid,
       M05_AXI_wdata(31 downto 0) => M05_AXI_wdata(31 downto 0),
-      M05_AXI_wlast(0) => M05_AXI_wlast(0),
-      M05_AXI_wready(0) => M05_AXI_wready(0),
+      M05_AXI_wready => M05_AXI_wready,
       M05_AXI_wstrb(3 downto 0) => M05_AXI_wstrb(3 downto 0),
-      M05_AXI_wvalid(0) => M05_AXI_wvalid(0),
+      M05_AXI_wvalid => M05_AXI_wvalid,
       SI5324_LOL_IN => SI5324_LOL_IN,
       SI5324_RST_OUT(0) => SI5324_RST_OUT(0),
       TX_DDC_OUT_scl_i => TX_DDC_OUT_scl_i,
@@ -402,23 +337,23 @@ begin
     port map (
       S_AXI_ACLK => s_axi_aclk,
       S_AXI_ARESETN => peripheral_aresetn(0),
-      S_AXI_AWADDR => M05_AXI_awaddr(31 downto 0),
-      S_AXI_AWVALID => M05_AXI_awvalid(0),
-      S_AXI_WDATA => M05_AXI_wdata,
-      S_AXI_WSTRB => M05_AXI_wstrb,
-      S_AXI_WVALID => M05_AXI_wvalid(0),
-      S_AXI_BREADY => M05_AXI_bready(0), 
-      S_AXI_ARADDR => M05_AXI_araddr(31 downto 0),                   
-      S_AXI_ARVALID => M05_AXI_arvalid(0),                 
-      S_AXI_RREADY => M05_AXI_rready(0),                  
-      S_AXI_ARREADY => M05_AXI_arready(0),                 
-      S_AXI_RDATA => M05_AXI_rdata,                   
-      S_AXI_RRESP => M05_AXI_rresp,                    
-      S_AXI_RVALID => M05_AXI_rvalid(0),            
-      S_AXI_WREADY => M05_AXI_wready(0),               
-      S_AXI_BRESP => M05_AXI_bresp,                    
-      S_AXI_BVALID => M05_AXI_bvalid(0),                  
-      S_AXI_AWREADY => M05_AXI_awready(0)
+      S_AXI_AWADDR(31 downto 0) => M05_AXI_awaddr(31 downto 0),
+      S_AXI_AWVALID => M05_AXI_awvalid,
+      S_AXI_WDATA(31 downto 0) => M05_AXI_wdata(31 downto 0),
+      S_AXI_WSTRB(3 downto 0) => M05_AXI_wstrb(3 downto 0),
+      S_AXI_WVALID => M05_AXI_wvalid,
+      S_AXI_BREADY => M05_AXI_bready, 
+      S_AXI_ARADDR(31 downto 0) => M05_AXI_araddr(31 downto 0),                   
+      S_AXI_ARVALID => M05_AXI_arvalid,                 
+      S_AXI_RREADY => M05_AXI_rready,                  
+      S_AXI_ARREADY => M05_AXI_arready,                 
+      S_AXI_RDATA(31 downto 0) => M05_AXI_rdata(31 downto 0),                   
+      S_AXI_RRESP(1 downto 0) => M05_AXI_rresp(1 downto 0),                    
+      S_AXI_RVALID => M05_AXI_rvalid,            
+      S_AXI_WREADY => M05_AXI_wready,               
+      S_AXI_BRESP(1 downto 0) => M05_AXI_bresp(1 downto 0),                    
+      S_AXI_BVALID => M05_AXI_bvalid,                  
+      S_AXI_AWREADY => M05_AXI_awready
     );
  
 end STRUCTURE;
