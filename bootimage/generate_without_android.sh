@@ -36,6 +36,14 @@ if [ "$1" == "clean" ]; then
 	make clean
 	cd ..
 	
+	#kernel modules for PL devices
+	for driver in ./drivers/*/
+	do
+		cd $driver
+		make clean
+		cd ../..
+	done
+	
 	#u-boot
 	cd mpsoc-u-boot-xlnx
 	make distclean
