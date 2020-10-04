@@ -11,19 +11,30 @@ use ieee.std_logic_1164.all;
 --use ieee.std_logic_unsigned.all;
 use ieee.numeric_std.all;
 
-use work.blue_filter_logic_pkg.all;
-
-
 --  A testbench has no ports.
 entity blue_filter_logic_tb is
 end blue_filter_logic_tb;
 --
 -------------------------------------------------------------------------------
 --
+
 architecture beh of blue_filter_logic_tb is
 
 	--  Specifies which entity is bound with the component.
-	for blue_filter_logic_0: blue_filter_logic use entity work.blue_filter_logic;	
+	component filter_logic is
+
+	  generic(
+		-- Width of S_AXI data bus
+		C_S_AXI_DATA_WIDTH	: integer	:= 32
+	  );
+	  port(
+	    clk 	    : in std_logic;
+	    rst         : in std_logic;
+	    regin   	: in std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
+	    regout   	: out std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0)  
+	);
+	
+	end component filter_logic;
 
 	constant clk_period : time := 1 ns;
 	constant DATA_WIDTH : integer := 32;
@@ -32,9 +43,10 @@ architecture beh of blue_filter_logic_tb is
     signal rst : std_logic := '0';
 	signal testdata_in		:	std_logic_vector(DATA_WIDTH-1 downto 0) := (others => '0');
 	signal testdata_out		:	std_logic_vector(DATA_WIDTH-1 downto 0) := (others => '0');
+	signal   ended  : std_logic := '0';
 begin
 	--  Component instantiation.
-	blue_filter_logic_0: blue_filter_logic
+	blue_filter_logic_0: filter_logic
 		generic map(
 			C_S_AXI_DATA_WIDTH	=> DATA_WIDTH
 		)
@@ -44,9 +56,7 @@ begin
 			regin => testdata_in,
 			regout => testdata_out
 		);
-		
-	
-		
+				
 	Clk_process : process
 	
 	begin
@@ -54,6 +64,10 @@ begin
 		wait for clk_period/2;
 		clk <= '1';
 		wait for clk_period/2;
+		
+		if ended = '1' then
+			wait;
+		end if;
 
 	end process clk_process;	
 
@@ -61,8 +75,11 @@ begin
 	stimuli : process
 
 	begin
-
+		
+		rst <= '1';
 		wait for 10 ns;
+		rst <= '0';
+		wait for 50 ns;
 
 		testdata_in <= (others => '0');
 		
@@ -80,9 +97,8 @@ begin
 		
 		wait for 2 ns;
 		
-		assert false report "end of test" severity note;
-
 		--  Wait forever; this will finish the simulation.
+		ended <= '1';
 		wait;
 
 	end process stimuli;

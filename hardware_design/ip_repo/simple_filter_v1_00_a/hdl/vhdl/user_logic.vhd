@@ -142,6 +142,8 @@ architecture IMP of user_logic is
   signal slv_ip2bus_data                : std_logic_vector(C_SLV_DWIDTH-1 downto 0);
   signal slv_read_ack                   : std_logic;
   signal slv_write_ack                  : std_logic;
+  
+  signal Bus2IP_Reset                   : std_logic;
 
   component filter_logic is
 
@@ -163,6 +165,8 @@ begin
 
   --USER logic implementation added here
 
+	Bus2IP_Reset <= not Bus2IP_Resetn;
+	
   --  Component instantiation.
 	filter_logic_0: filter_logic
 	    --Due to the partial reconfiguration,no generic parameters may be used
@@ -171,7 +175,7 @@ begin
 		--)
 		port map (
 			clk => Bus2IP_Clk,
-			rst => Bus2IP_Resetn,
+			rst => Bus2IP_Reset,
 			regin => filter_data_in,
 			regout => filter_data_out
 		);

@@ -1,7 +1,5 @@
 library ieee;
 use ieee.std_logic_1164.all;
---use ieee.std_logic_arith.all;
---use ieee.std_logic_unsigned.all;
 use ieee.numeric_std.all;
 
 entity filter_logic is
@@ -19,16 +17,17 @@ end filter_logic;
 
 architecture IMP of filter_logic is
 begin
-  process (regin)
-  variable temp : std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0) := (others => '0');
+  process (clk, rst)
   begin
-    for k in 0 to (C_S_AXI_DATA_WIDTH - 1) loop
-        if k > 15 and k < 24 then
-            temp(k) := regin(k);
-        else
-            temp(k) := '0';
-        end if;
-    end loop;
-    regout <= temp;
+	if rst = '1' then
+
+		regout <= (others => '0');
+
+	elsif rising_edge(clk) then
+	
+		regout(15 downto 0) <= (others => '0');
+		regout(23 downto 16) <= regin(23 downto 16);
+		regout(C_S_AXI_DATA_WIDTH-1 downto 24) <= (others => '0');
+	end if;
   end process;
 end IMP;

@@ -41,6 +41,14 @@ generated_bitstreams/*.bit
 *.str
 
 #########
+#Simulation generated files
+#########
+*.ghw
+*.gtkw
+*.cf
+*.vcd
+
+#########
 #ignore folders generated from vivado
 #########
 .Xil/

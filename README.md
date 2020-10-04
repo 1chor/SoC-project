@@ -18,10 +18,10 @@
   `$ sudo apt-get install openjdk-8-jdk`
 
 ### Installing packages
-  Please follow [AOSP: Installing Required Packages](https://source.android.com/setup/build/initializing#installing-required-packages-ubuntu-1404) to initialize build environment depending on your build host. Please note that builds are tested with 64-bit Ubuntu LTS 18.04.4 hosts. For the Ubuntu LTS 148.04.4 the following packages are required:
+  Please follow [AOSP: Installing Required Packages](https://source.android.com/setup/build/initializing#installing-required-packages-ubuntu-1804) to initialize build environment depending on your build host. Please note that builds are tested with 64-bit Ubuntu LTS 18.04.4 hosts. For the Ubuntu LTS 18.04.4 the following packages are required:
 
 ```shell
-  $ sudo apt-get install git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc unzip
+  $ sudo apt-get install git-core gnupg flex bison build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig
 ```
   In addition to the packages from the AOSP guide, please install the following for the SD card initialization scripts:
 
@@ -67,7 +67,7 @@
   
 ## Preparing SD Card
  Run the following script to prepare bootable SD card. 
- Use path to your SD card instead of `/dev/mmcblk0`. 
+ Use the path to your SD card instead of `/dev/mmcblk0`. 
 
  ```shell
  $ cd WORKING_DIRECTORY
@@ -84,3 +84,13 @@
  <p align="center">
  <img src="./report/images/ZCU102.png" width="600">
  </p>
+
+## Server API
+### Installing packages
+  To start the server API, the following packages must be installed:
+
+```shell
+  $ sudo apt install python3 python3-pip python3-flask
+  $ pip install flask-restful  
+```
+Execute the script `run_server.sh` to start the server. You will be asked to enter your IP address under which the server will be hosted.
