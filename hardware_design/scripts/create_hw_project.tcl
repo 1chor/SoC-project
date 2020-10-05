@@ -194,7 +194,7 @@ set_property -name "library" -value "axi_lite_ipif_v1_01_a" -objects $file_obj
 set file "vhdl/user_logic.vhd"
 set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
 set_property -name "file_type" -value "VHDL" -objects $file_obj
-set_property -name "library" -value "blake2b_v1_00_a" -objects $file_obj
+set_property -name "library" -value "simple_filter_v1_00_a" -objects $file_obj
 
 set file "vhdl/simple_filter.vhd"
 set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
@@ -2277,10 +2277,8 @@ proc create_hier_cell_hdmi_output { parentCell nameHier } {
  ] $blake2b_0
 
   set_property -dict [ list \
-   CONFIG.SUPPORTS_NARROW_BURST {0} \
    CONFIG.NUM_READ_OUTSTANDING {1} \
    CONFIG.NUM_WRITE_OUTSTANDING {1} \
-   CONFIG.MAX_BURST_LENGTH {1} \
  ] [get_bd_intf_pins /blake2b_0/S_AXI]
 
   # Create instance: hdmi_output
@@ -2294,10 +2292,8 @@ proc create_hier_cell_hdmi_output { parentCell nameHier } {
  ] $myled_0
 
   set_property -dict [ list \
-   CONFIG.SUPPORTS_NARROW_BURST {0} \
    CONFIG.NUM_READ_OUTSTANDING {1} \
    CONFIG.NUM_WRITE_OUTSTANDING {1} \
-   CONFIG.MAX_BURST_LENGTH {1} \
  ] [get_bd_intf_pins /myled_0/S_AXI]
 
   # Create instance: zynq_us_ss_0
