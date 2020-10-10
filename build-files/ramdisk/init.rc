@@ -313,8 +313,11 @@ on post-fs
     start hwservicemanager
     start vndservicemanager
 
+	# stay at read/write
+	mount rootfs rootfs / rw remount
     # once everything is setup, no need to modify /
-    mount rootfs rootfs / ro remount
+    # mount rootfs rootfs / ro remount
+    
     # Mount shared so changes propagate into child namespaces
     mount rootfs rootfs / shared rec
     # Mount default storage into root namespace
