@@ -1,17 +1,28 @@
 package com.lab.soc.client;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.provider.Settings;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,9 +31,11 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.HashMap;
+import java.util.function.ToDoubleBiFunction;
 
 
 public class MainActivity extends AppCompatActivity implements NetworkManager.Callback, MsgProcessor.Callback, FabricManager.Callback, Util.Callback, View.OnClickListener {
@@ -41,11 +54,21 @@ public class MainActivity extends AppCompatActivity implements NetworkManager.Ca
     private SharedPreferences mSharedPref;
     private boolean download;
 
+    private String path = Environment.getExternalStorageDirectory() + "/SoC";
     private String bitmapFilename;
     private String filterDriver;
     private String reconfigDriver;
     private String blake2bDriver;
+
+    //ToDo delete
     private String filesDir;
+
+    private static final int INTERNET_REQUEST = 1;
+    private static final int WRITE_EXTERNAL_REQUEST = 2;
+    private static final int NETWORK_REQUEST = 3;
+    private static final int READ_EXTERNAL_REQUEST = 4;
+
+    private boolean storagePermissionGranted;
 
 
     @Override
@@ -53,13 +76,8 @@ public class MainActivity extends AppCompatActivity implements NetworkManager.Ca
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //checkPermissions();
-
-        //if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED) {
-
-        //}
-
-
+        //Check for android permissions
+        checkPermissions();
 
         mSharedPref = this.getPreferences(Context.MODE_PRIVATE);
 
@@ -77,25 +95,21 @@ public class MainActivity extends AppCompatActivity implements NetworkManager.Ca
         mUtil = new Util(this);
         mFragManager = getSupportFragmentManager();
         mFragManager.beginTransaction().add(mNetworkFragment, "NetworkManager").commit();
-
         //mNetworkFragment.configure("http://192.168.2.3:5000/api/", "SOC-LAB-IOT");
 
         mButtonConnect.setOnClickListener(this);
         mButtonFilter.setOnClickListener(this);
 
         download = false;
-        //filterDriver = this.getFilesDir() + "//simple_filter.txt";
-        //reconfigDriver = this.getFilesDir() + "//reconfig_driver.txt";
-        //blake2bDriver = this.getFilesDir() + "//blake2b_driver.txt";
-        //filesDir = this.getFilesDir() + "/";
-        //bitmapFilename = "bitmapARGB.bin";
 
-        filterDriver = "/proc/simple_filters";
-        reconfigDriver = this.getFilesDir() + "//reconfig_driver.txt";
-        blake2bDriver = "/proc/blake2b";
+        //ToDo delete
         filesDir = "/";
-        bitmapFilename = "/data/bitmapARGB.bin";
 
+        //Set filenames
+        bitmapFilename = "bitmapARGB.bin";
+        filterDriver = "filter.txt";
+        blake2bDriver = "blake2b.txt";
+        reconfigDriver = "partial.txt";
     }
 
 
@@ -123,21 +137,40 @@ public class MainActivity extends AppCompatActivity implements NetworkManager.Ca
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.button:
-                mNetworkFragment.configure("http://" + mServerIP.getText() + ":5000/api/", "SOC-LAB-IOT");
-                if (!download) {
-                    mNetworkFragment.getUpdate();
-                }
-                break;
-            case R.id.button2:
-                checkPermissions();
-                mConsole.append("\r\nProcess bitmap...\r\n");
-                mUtil.processBitmap(mBitmap, filesDir + bitmapFilename);
-                mFabricManager.applyFilter(filesDir + bitmapFilename, filterDriver);
-                break;
-            default:
-                break;
+        //Check for android permissions
+        checkPermissions();
+
+        if (storagePermissionGranted){
+
+            //Create directory if it does not exists
+            File dir = new File(path);
+            if (!dir.exists() && !dir.isDirectory()) {
+                //Create empty directory
+                if (dir.mkdirs())
+                    Log.i("CreateDir", "App dir created");
+                else
+                    Log.w("CreateDir", "Unable to create app dir!");
+            }
+
+            switch (v.getId()) {
+                //Connect button
+                case R.id.button:
+                    mNetworkFragment.configure("http://" + mServerIP.getText() + ":5000/api/", "SOC-LAB-IOT");
+                    if (!download) {
+                        mNetworkFragment.getUpdate();
+                    }
+                    break;
+
+                //Use filter button
+                case R.id.button2:
+                    mConsole.append("\r\nProcess bitmap...\r\n");
+                    mUtil.processBitmap(mBitmap, path + "/" + bitmapFilename);
+                    mFabricManager.applyFilter(path + "/" + bitmapFilename, path + "/" + filterDriver);
+                    break;
+
+                default:
+                    break;
+            }
         }
     }
 
@@ -275,30 +308,98 @@ public class MainActivity extends AppCompatActivity implements NetworkManager.Ca
     }
 
 
-    public boolean checkPermissions() {
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(this.getPackageName(), PackageManager.GET_PERMISSIONS);
-            if (info.requestedPermissions != null) {
-                for (String p : info.requestedPermissions) {
-                    mConsole.append("\r\n" + p + "\r\n");
+    public void checkPermissions() {
+        // check for WRITE_EXTERNAL_STORAGE permission
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            // permission not granted
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                //Can ask user for permission
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_REQUEST);
+            } else {
+                boolean userAskedPermissionBefore = mSharedPref.getBoolean(Constants.USER_ASKED_STORAGE_PERMISSION_BEFORE, false);
+
+                if (userAskedPermissionBefore) {
+                    //If user was asked permission before and denied
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+                    alertDialogBuilder.setTitle("Permission needed");
+                    alertDialogBuilder.setMessage("Storage permission needed for app execution");
+                    alertDialogBuilder.setPositiveButton("Open Setting", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = new Intent();
+                            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            Uri uri = Uri.fromParts("package", MainActivity.this.getPackageName(), null);
+                            intent.setData(uri);
+                            MainActivity.this.startActivity(intent);
+                        }
+                    });
+                    alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Log.d("MainActivity", "onClick: Cancelling");
+                        }
+                    });
+
+                    AlertDialog dialog = alertDialogBuilder.create();
+                    dialog.show();
+                } else {
+                    //If user is asked permission for first time
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_REQUEST);
+
+                    SharedPreferences.Editor editor = mSharedPref.edit();
+                    editor.putBoolean(Constants.USER_ASKED_STORAGE_PERMISSION_BEFORE, true);
+                    editor.apply();
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            storagePermissionGranted = true;
         }
-        return false;
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        storagePermissionGranted = false;
+
         switch (requestCode) {
-            case 1:
+            case INTERNET_REQUEST:
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //permission was granted
                 } else {
-
+                    Toast.makeText(getApplicationContext(), "The INTERNET permission is needed!\n Please allow it", Toast.LENGTH_LONG).show();
                 }
+
+            case WRITE_EXTERNAL_REQUEST:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //permission was granted
+                    storagePermissionGranted = true;
+                } else {
+                    Toast.makeText(getApplicationContext(), "The WRITE_EXTERNAL_STORAGE permission is needed!\n Please allow it", Toast.LENGTH_LONG).show();
+                }
+
+            case NETWORK_REQUEST:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //permission was granted
+                } else {
+                    Toast.makeText(getApplicationContext(), "The ACCESS_NETWORK_STATE permission is needed!\n Please allow it", Toast.LENGTH_LONG).show();
+                }
+
+            case READ_EXTERNAL_REQUEST:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //permission was granted
+                } else {
+                    Toast.makeText(getApplicationContext(), "The READ_EXTERNAL_STORAGE permission is needed!\n Please allow it", Toast.LENGTH_LONG).show();
+                }
+
+            default:
+
         }
     }
 }
