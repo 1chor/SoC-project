@@ -12,18 +12,18 @@ repositories = [
         "Changelog": ["03.10.2020 Primary release"],
         "File": "blue_filter.bin",
         "Date": "03.10.2020",
-        "Checksum": ""
+        "Checksum": "6c719309aacd88f3bbfc3ba57f454973e06c055540b444f76b4c863bb64229e7bcb3a7a53b715e05048e00babad05c76b917963efaa64ea09bfa4a0e21ebb2a7"
     },
 
     {
-        "Index": "GREEN-FILTER",
+        "Index": "SOC-LAB-IOT",
         "Title": "IOT Image Processing",
-        "Version": "001",
+        "Version": "012",
         "Description": "green filter logic",
         "Changelog": ["03.10.2020 Primary release"],
         "File": "green_filter.bin",
         "Date": "03.10.2020",
-        "Checksum": ""
+        "Checksum": "be2c812ac9624e48a41bbf611ca7448cdce49d18d391309b0061edded8ef9fbf6ac41f6a7d1a76d00aed44da376ba42229b2f3897726d56a4c948330b3cfe764"
     },
     
     {
@@ -34,30 +34,8 @@ repositories = [
         "Changelog": ["03.10.2020 Primary release"],
         "File": "red_filter.bin",
         "Date": "03.10.2020",
-        "Checksum": ""
-    },
-    
-    {
-        "Index": "ROTATE_LEFT",
-        "Title": "IOT Knight Rider",
-        "Version": "001",
-        "Description": "LED rotate left",
-        "Changelog": ["03.10.2020 Primary release"],
-        "File": "rotate_left.bin",
-        "Date": "03.10.2020",
-        "Checksum": ""
-    },
-    
-    {
-        "Index": "ROTATE_RIGHT",
-        "Title": "IOT Knight Rider",
-        "Version": "001",
-        "Description": "LED rotate right",
-        "Changelog": ["03.10.2020 Primary release"],
-        "File": "rotate_right.bin",
-        "Date": "03.10.2020",
-        "Checksum": ""
-    }
+        "Checksum": "9428bf2d56512845b52c1fc3cb9636acfca0ab53637982f788361abf86db9f93081fc51beda6d99c4212cbeaa0f6863626d89522c814f02af7f9688bfb4edfb4"
+    }    
 ]
 
 class Repository(Resource):
