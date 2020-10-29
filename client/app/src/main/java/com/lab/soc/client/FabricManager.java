@@ -33,7 +33,7 @@ public class FabricManager {
      * @param driver   replace with "/proc/blake2b"
      * @return
      */
-    String calculateHashFromFile(final String filepath, final String driver) {
+    String calculateHashFromFile(final String filepath, final String driver, final String hash) {
         Runnable getHash = new Runnable() {
             @Override
             public void run() {
@@ -45,10 +45,12 @@ public class FabricManager {
 
                     //stall thread to wait for hardware calculation
                     Thread.currentThread();
-                    Thread.sleep(100);
+                    Thread.sleep(1000);
+
+                    RandomAccessFile hashResult = new RandomAccessFile(hash, "rws");
 
                     //read the calculated HASH
-                    hashDriver.read(buffer, 0, 128);
+                    hashResult.read(buffer, 0, 128);
                     // release driver
                     hashDriver.close();
                 } catch (FileNotFoundException e) {

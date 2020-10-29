@@ -87,7 +87,7 @@ public class NetworkManager extends android.support.v4.app.Fragment {
                     // create connection
                     HttpURLConnection mConnection = (HttpURLConnection) serverEndpoint.openConnection();
                     // set who is connecting
-                    mConnection.setRequestProperty("User-Agent", "Zedboard");
+                    mConnection.setRequestProperty("User-Agent", "ZCU102");
 
                     if (mConnection.getResponseCode() == 200) {
                         //everything went fine
@@ -138,7 +138,7 @@ public class NetworkManager extends android.support.v4.app.Fragment {
         mAsync.execute();
     }
 
-    public void download(final Repository repo, String filepath) {
+    public void download(final Repository repo, final String location) {
         mAsync = new AsyncTask() {
             @Override
             protected Object doInBackground(Object[] objects) {
@@ -148,14 +148,14 @@ public class NetworkManager extends android.support.v4.app.Fragment {
                     // create connection
                     HttpURLConnection mConnection = (HttpURLConnection) serverEndpoint.openConnection();
                     // set who is connecting
-                    mConnection.setRequestProperty("User-Agent", "Zedboard");
+                    mConnection.setRequestProperty("User-Agent", "ZCU102");
 
 
                     mConnection.connect();
                     // point to root directory on sd card
 
                     // create the bitstream file
-                    File bitStream = new File(getContext().getFilesDir(), repo.getFile());
+                    File bitStream = new File(location, repo.getFile());
                     // create output stream to save data
                     FileOutputStream out = new FileOutputStream(bitStream);
                     // input stream to read data from the server
@@ -195,7 +195,7 @@ public class NetworkManager extends android.support.v4.app.Fragment {
     }
 
 
-    public void disconect() {
+    public void disconnect() {
 
     }
 

@@ -59,9 +59,7 @@ public class MainActivity extends AppCompatActivity implements NetworkManager.Ca
     private String filterDriver;
     private String reconfigDriver;
     private String blake2bDriver;
-
-    //ToDo delete
-    private String filesDir;
+    private String blake2bHash;
 
     private static final int INTERNET_REQUEST = 1;
     private static final int WRITE_EXTERNAL_REQUEST = 2;
@@ -102,13 +100,11 @@ public class MainActivity extends AppCompatActivity implements NetworkManager.Ca
 
         download = false;
 
-        //ToDo delete
-        filesDir = "/";
-
         //Set filenames
         bitmapFilename = "bitmapARGB.bin";
         filterDriver = "filter.txt";
         blake2bDriver = "blake2b.txt";
+        blake2bHash = "hash.txt";
         reconfigDriver = "partial.txt";
     }
 
@@ -243,12 +239,12 @@ public class MainActivity extends AppCompatActivity implements NetworkManager.Ca
         mConsole.append("\r\n" + repo.toString());
 
         saveConfig(repo);   // disable for debugging
-        mNetworkFragment.download(repo, repo.getFile());
+        mNetworkFragment.download(repo, path);
     }
 
     @Override
-    public String calculateHash(String path) {
-        return mFabricManager.calculateHashFromFile(filesDir + path, blake2bDriver);
+        public String calculateHash(String file) {
+        return mFabricManager.calculateHashFromFile(path + "/" + file, path + "/" + blake2bDriver, path + "/" + blake2bHash);
     }
 
 
@@ -257,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements NetworkManager.Ca
         if (valid) {
             mConsole.append("Bitstream verified\r\n");
             mConsole.append("Reconfigure fabric\r\n");
-            mFabricManager.reconfigureFabric(filesDir + repo.getFile(), reconfigDriver);
+            mFabricManager.reconfigureFabric(path + "/" + repo.getFile(), path + "/" + reconfigDriver);
         } else {
             mConsole.append("Bitstream invalid\r\n");
 

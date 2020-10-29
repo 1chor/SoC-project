@@ -1,8 +1,6 @@
 package com.lab.soc.client;
 
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.util.Log;
 
 import java.io.IOException;
@@ -82,15 +80,14 @@ public class Util {
                             RandomAccessFile bitmap = new RandomAccessFile(filepath, "rws");
 
                             for (int i : buffer) {
-                                buffer[i] = bitmap.readInt();
+                                i = bitmap.readInt();
                             }
 
                             bitmap.close();
                             Log.i("Bitmap", "Here");
 
-
-
                             mBitmap.setPixels(buffer, 0, width, 0, 0, width, height);
+
                             Log.i("Bitmap", "Fail");
                         } catch (IOException e) {
                             e.printStackTrace();
