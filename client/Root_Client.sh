@@ -2,35 +2,63 @@
 
 Filepath=/storage/emulated/0/SoC
 
+cd $Filepath
+
 while [ 1 ]; do
 	sleep 10
 	
-	#Control for Filter
+	# control for filter
 	if [ -f "$Filepath/filter.txt" ]; then
 		echo "filter.txt exists." > /dev/kmsg
+		
+		# echo bitmap to filter kernel module
+		echo "$( < filter.txt )" > /proc/simple_filters
 		
 		rm $Filepath/filter.txt
 	fi
 	
-	#Control for blake2b
+	# control for blake2b
 	if [ -f "$Filepath/blake2b.txt" ]; then
 		echo "blake2b.txt exists." > /dev/kmsg
+		rm $Filepath/hash.txt
+		
+		# cat bitstream to null device, otherwise the kernel module will fail 
+		cat "$( < blake2b.txt )" > /dev/null
+		
+		# echo bitstream to blake2b kernel module
+		echo "$( < blake2b.txt )" > /proc/blake2b
+		
+		# wait for hash to complete
+		sleep 0.05
+		
+		# read blake2b kernel module
+		cat /proc/blake2b > $Filepath/hash.txt
 		
 		rm $Filepath/blake2b.txt
 	fi
 	
-	#Control for partial reconfiguration
+	# control for partial reconfiguration
 	if [ -f "$Filepath/partial.txt" ]; then
 		echo "partial.txt exists." > /dev/kmsg
 		
+		# set flags for partial bitstream
+		echo 1 > /sys/class/fpga_manager/fpga0/flags
+		
+		# load partial bitstream
+		cp "$( < partial.txt )" /lib/firmware
+		echo "$( < partial.txt )" /sys/class/fpga_manager/fpga0/firmware
+		
+		# control LEDs dependent on the filter reconfigured
+		if [ "$( < partial.txt )" = "blue_filter.bin" ]; then 
+			echo 0x03 > /proc/myled
+		elif [ "$( < partial.txt )" = "green_filter.bin" ]; then 
+			echo 0x18 > /proc/myled
+		elif [ "$( < partial.txt )" = "red_filter.bin" ]; then 
+			echo 0C0 > /proc/myled
+		else
+			echo 0x00 > /proc/myled
+		fi
+		 
 		rm $Filepath/partial.txt
-	fi
-	
-	#Control for LEDs
-	if [ -f "$Filepath/led.txt" ]; then
-		echo "led.txt exists." > /dev/kmsg
-		
-		rm $Filepath/led.txt
-	fi
-		
+	fi		
 done
