@@ -4,7 +4,7 @@ from ressources.repository import Repository
 from ressources.download import Download
 
 
-DOWNLOAD_DIR = 'downloads\\'
+DOWNLOAD_DIR = 'downloads'
 
 
 app = Flask(__name__)
