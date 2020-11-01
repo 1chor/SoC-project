@@ -2,6 +2,10 @@
 
 Filepath=/storage/emulated/0/SoC
 
+if [ ! -d $Filepath ]; then
+	mkdir -p $Filepath
+fi
+
 cd $Filepath
 rm *
 echo > filtered.bin

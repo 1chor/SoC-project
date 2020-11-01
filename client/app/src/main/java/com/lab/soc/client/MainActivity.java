@@ -77,9 +77,6 @@ public class MainActivity extends AppCompatActivity implements NetworkManager.Ca
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Check for android permissions
-        checkPermissions();
-
         mSharedPref = this.getPreferences(Context.MODE_PRIVATE);
 
         mConsole = (TextView) findViewById(R.id.textView);
@@ -110,6 +107,9 @@ public class MainActivity extends AppCompatActivity implements NetworkManager.Ca
         blake2bDriver = "blake2b.txt";
         blake2bHash = "hash.txt";
         reconfigDriver = "partial.txt";
+
+        //Check for android permissions
+        checkPermissions();
     }
 
 
@@ -141,16 +141,6 @@ public class MainActivity extends AppCompatActivity implements NetworkManager.Ca
         checkPermissions();
 
         if (storagePermissionGranted){
-
-            //Create directory if it does not exists
-            File dir = new File(path);
-            if (!dir.exists() && !dir.isDirectory()) {
-                //Create empty directory
-                if (dir.mkdirs())
-                    Log.i("CreateDir", "App dir created");
-                else
-                    Log.w("CreateDir", "Unable to create app dir!");
-            }
 
             switch (v.getId()) {
                 //Connect button
