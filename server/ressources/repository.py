@@ -16,9 +16,9 @@ repositories = [
     },
 
     {
-        "Index": "SOC-LAB-IOT",
+        "Index": "GREEN-FILTER",
         "Title": "IOT Image Processing",
-        "Version": "014",
+        "Version": "015",
         "Description": "green filter logic",
         "Changelog": ["03.10.2020 Primary release"],
         "File": "green_filter.bin",
@@ -27,7 +27,7 @@ repositories = [
     },
     
     {
-        "Index": "RED-FILTER",
+        "Index": "SOC-LAB-IOT",
         "Title": "IOT Image Processing",
         "Version": "001",
         "Description": "red filter logic",
