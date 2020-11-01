@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,11 +43,14 @@ public class MsgProcessor {
             // compare version if there is already a firmware installed
             if (config.get(Constants.JSON.INDEX) != null) {
                 // if new; init download
+                mCallback.onUpdateAvailable(temp);
+                /*
                 if (Integer.parseInt(version) > Integer.parseInt(config.get(Constants.JSON.VERSION))) {
                     mCallback.onUpdateAvailable(temp);
                 } else {
                     mCallback.printToTextBox("No updates available! \r\n");
                 }
+                 */
 
             } else {
                 mCallback.onUpdateAvailable(temp);
@@ -61,7 +65,9 @@ public class MsgProcessor {
 
     public void verifyBitstream(Repository repo) {
         // calculate hash with the hardware blake2b module
-        String hash = mCallback.calculateHash(repo.getFile());
+        byte[] hash_buffer = mCallback.calculateHash(repo.getFile());
+        String hash = new String(hash_buffer, StandardCharsets.US_ASCII);
+
         // compare with received hash from the server
         if (hash.equals(repo.getChecksum())) {
             mCallback.onVerifiedBitstream(repo, true);
@@ -94,7 +100,7 @@ public class MsgProcessor {
 
         void printToTextBox(String text);
 
-        String calculateHash(String path);
+        byte[] calculateHash(String path);
 
         void onVerifiedBitstream(Repository repo, boolean valid);
     }

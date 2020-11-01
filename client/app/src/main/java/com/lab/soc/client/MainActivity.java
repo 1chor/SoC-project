@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements NetworkManager.Ca
         mUtil = new Util(this);
         mFragManager = getSupportFragmentManager();
         mFragManager.beginTransaction().add(mNetworkFragment, "NetworkManager").commit();
-        //mNetworkFragment.configure("http://192.168.2.3:5000/api/", "SOC-LAB-IOT");
 
         mButtonConnect.setOnClickListener(this);
         mButtonFilter.setOnClickListener(this);
@@ -145,7 +144,11 @@ public class MainActivity extends AppCompatActivity implements NetworkManager.Ca
             switch (v.getId()) {
                 //Connect button
                 case R.id.button:
-                    mNetworkFragment.configure("http://" + mServerIP.getText() + ":5000/api/", "SOC-LAB-IOT");
+                    if (mServerIP.getText().toString().isEmpty())
+                        mNetworkFragment.configure("http://192.168.2.3:5000/api/", "SOC-LAB-IOT");
+                    else
+                        mNetworkFragment.configure("http://" + mServerIP.getText() + ":5000/api/", "SOC-LAB-IOT");
+
                     if (!download) {
                         mNetworkFragment.getUpdate();
                     }
@@ -237,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements NetworkManager.Ca
     }
 
     @Override
-        public String calculateHash(String file) {
+        public byte[] calculateHash(String file) {
         return mFabricManager.calculateHashFromFile(path + "/" + file, path + "/" + blake2bDriver, path + "/" + blake2bHash);
     }
 

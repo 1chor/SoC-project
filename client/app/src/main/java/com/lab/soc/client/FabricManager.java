@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.logging.Handler;
 
 public class FabricManager {
     private Callback mCallback;
@@ -34,7 +33,7 @@ public class FabricManager {
      * @param driver   replace with "/proc/blake2b"
      * @return
      */
-    String calculateHashFromFile(final String filepath, final String driver, final String hash) {
+    byte[] calculateHashFromFile(final String filepath, final String driver, final String hash) {
         Runnable getHash = new Runnable() {
             @Override
             public void run() {
@@ -56,8 +55,11 @@ public class FabricManager {
 
                     //read the calculated HASH
                     hashResult.read(buffer, 0, 128);
+
                     // release driver
                     hashDriver.close();
+                    hashResult.close();
+
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -70,7 +72,7 @@ public class FabricManager {
 
         mHandler.post(getHash);
 
-        return new String(buffer);
+        return buffer;
     }
 
     /**
