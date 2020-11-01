@@ -1,8 +1,21 @@
 #!/bin/sh
 
+package_name=com.lab.soc.client
+activity=MainActivity
+APK_file=/data/SoC_Client.apk
 Filepath=/storage/emulated/0/SoC
 emptyhash="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
 
+# check if app is already installed
+is_installed=`pm list packages $package_name`
+if test -n "$is_installed"; then
+	# app is already installed
+else
+	# install app
+	pm install $APK_file
+fi
+
+# make work dir if not exists
 if [ ! -d $Filepath ]; then
 	mkdir -p $Filepath
 fi
@@ -10,6 +23,9 @@ fi
 cd $Filepath
 rm *
 echo > filtered.bin
+
+# start app
+am start -n $package_name/$activity
 
 while [ 1 ]; do
 	sleep 10
@@ -31,6 +47,8 @@ while [ 1 ]; do
 		
 		rm "$( < filter.txt )"
 		rm $Filepath/filter.txt
+		
+		echo "filter operation done." > /dev/kmsg
 	fi
 		
 	# control for blake2b
@@ -68,6 +86,8 @@ while [ 1 ]; do
 		cp tmp.txt hash.txt 
 		
 		rm $Filepath/blake2b.txt
+		
+		echo "blake2b operation done." > /dev/kmsg
 	fi
 	
 	# control for partial reconfiguration
@@ -99,5 +119,7 @@ while [ 1 ]; do
 		fi
 		 
 		rm $Filepath/partial.txt
+		
+		echo "partial operation done." > /dev/kmsg
 	fi		
 done
