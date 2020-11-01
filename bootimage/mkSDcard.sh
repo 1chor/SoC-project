@@ -216,6 +216,7 @@ if [ $populate ]; then
 		cp -rfv modules/*.ko /tmp/$$/data_part/modules/
 		mkdir -p /tmp/$$/data_part/bitstreams
 		cp -rfv bitstreams/*.bin /tmp/$$/data_part/bitstreams/
+		cp -rfv ../client/Root_Client.sh /tmp/$$/data_part/
 		sync
 		umount /tmp/$$/data_part
 		rm -rf /tmp/$$/data_part
