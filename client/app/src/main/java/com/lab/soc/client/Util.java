@@ -1,10 +1,21 @@
 package com.lab.soc.client;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.v4.content.res.TypedArrayUtils;
 import android.util.Log;
 
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.math.BigInteger;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 public class Util {
     private Callback mCallback;
@@ -42,10 +53,11 @@ public class Util {
                         mBitmap.getPixels(buffer, 0, width, 0, 0, width, height);
 
                         try {
-                            RandomAccessFile bitmap = new RandomAccessFile(filepath, "rws");
+                            RandomAccessFile bitmap = new RandomAccessFile(filepath, "rw");
 
                             // write to file
                             for (int i : buffer) {
+                            //for (int i=0; i<=buffer.length -1; i++) {
                                 bitmap.writeInt(i);
                             }
                             bitmap.close();
@@ -55,7 +67,7 @@ public class Util {
                             e.printStackTrace();
                         }
 
-                        mCallback.onBitmapProcessed();
+                        mCallback.onBitmapProcessed(mBitmap);
                     }
                 });
     }
@@ -74,34 +86,38 @@ public class Util {
                         int height = mBitmap.getHeight();
                         int width = mBitmap.getWidth();
 
-                        int[] buffer = new int[height * width];
+                        int[] data = new int[height * width];
+
+                        Bitmap fBitmap = null;
+
+                        //wait until file exists
+                        File file = new File(filepath);
+                        while (!file.exists());
 
                         try {
-                            RandomAccessFile bitmap = new RandomAccessFile(filepath, "rws");
+                            RandomAccessFile bitmap = new RandomAccessFile(filepath, "r");
 
-                            for (int i : buffer) {
-                                i = bitmap.readInt();
+                            for (int i=0; i<=data.length -1; i++) {
+                                data[i] = bitmap.readInt() -16777216; //read int value and apply alpha correction
                             }
 
                             bitmap.close();
-                            Log.i("Bitmap", "Here");
 
-                            mBitmap.setPixels(buffer, 0, width, 0, 0, width, height);
+                            fBitmap = Bitmap.createBitmap(data, width, height, Bitmap.Config.ARGB_8888);
 
-                            Log.i("Bitmap", "Fail");
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        mCallback.onBitmapLoaded();
+                        mCallback.onBitmapLoaded(fBitmap);
                     }
                 });
     }
 
 
     public interface Callback {
-        public void onBitmapProcessed();
+        public void onBitmapProcessed(Bitmap mBitmap);
 
-        public void onBitmapLoaded();
+        public void onBitmapLoaded(Bitmap fBitmap);
     }
 
 }

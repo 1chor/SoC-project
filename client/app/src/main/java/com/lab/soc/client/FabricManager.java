@@ -1,5 +1,6 @@
 package com.lab.soc.client;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -47,7 +48,11 @@ public class FabricManager {
                     Thread.currentThread();
                     Thread.sleep(1000);
 
-                    RandomAccessFile hashResult = new RandomAccessFile(hash, "rws");
+                    //wait until file exists
+                    File file = new File(hash);
+                    while (!file.exists());
+
+                    RandomAccessFile hashResult = new RandomAccessFile(hash, "r");
 
                     //read the calculated HASH
                     hashResult.read(buffer, 0, 128);
@@ -132,11 +137,11 @@ public class FabricManager {
 
         mHandler.post(applyFilter);
         // read the processed image back into the ui
-        mCallback.onFilterApplied(filepath);
+        mCallback.onFilterApplied();
     }
 
 
     public interface Callback {
-        public void onFilterApplied(String filepath);
+        public void onFilterApplied();
     }
 }

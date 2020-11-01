@@ -9,7 +9,9 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements NetworkManager.Ca
 
     private String path = Environment.getExternalStorageDirectory() + "/SoC";
     private String bitmapFilename;
+    private String fbitmapFilename;
     private String filterDriver;
     private String reconfigDriver;
     private String blake2bDriver;
@@ -102,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements NetworkManager.Ca
 
         //Set filenames
         bitmapFilename = "bitmapARGB.bin";
+        fbitmapFilename = "fBitmap.bin";
         filterDriver = "filter.txt";
         blake2bDriver = "blake2b.txt";
         blake2bHash = "hash.txt";
@@ -275,17 +279,19 @@ public class MainActivity extends AppCompatActivity implements NetworkManager.Ca
 
     /// FABRIC MANAGER CALLBACKS:
     @Override
-    public void onFilterApplied(String filepath) {
-        mUtil.loadBitmap(mBitmap, filepath);
+    public void onFilterApplied() {
+        mUtil.loadBitmap(mBitmap, path + "/" + fbitmapFilename);
     }
 
 
     // UTILITY CALLBACKS:
     @Override
-    public void onBitmapProcessed() {
+    public void onBitmapProcessed(final Bitmap mBitmap) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                Drawable drawable = new BitmapDrawable(getResources(), mBitmap);
+                mImageView.setImageDrawable(drawable);
                 mConsole.append("Bitmap processed\r\n");
                 mConsole.append("Bitmap saved\r\n");
             }
@@ -294,10 +300,12 @@ public class MainActivity extends AppCompatActivity implements NetworkManager.Ca
 
 
     @Override
-    public void onBitmapLoaded() {
+    public void onBitmapLoaded(final Bitmap fBitmap) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                Drawable drawable = new BitmapDrawable(getResources(), fBitmap);
+                mImageView.setImageDrawable(drawable);
                 mConsole.append("Bitmap loaded\n");
             }
         });
