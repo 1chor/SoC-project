@@ -211,12 +211,10 @@ if [ $populate ]; then
 		mkdir -p /tmp/$$/data_part
 		mount -t ext4 ${diskname}${prefix}4 /tmp/$$/data_part
 		cp -rfv ../build-files/startup.sh /tmp/$$/data_part/
-		cp -rfv ../client/bitmapARGB.bin /tmp/$$/data_part/
 		mkdir -p /tmp/$$/data_part/modules
 		cp -rfv modules/*.ko /tmp/$$/data_part/modules/
-		mkdir -p /tmp/$$/data_part/bitstreams
-		cp -rfv bitstreams/*.bin /tmp/$$/data_part/bitstreams/
 		cp -rfv ../client/Root_Client.sh /tmp/$$/data_part/
+		cp -rfv ../client/app/build/outputs/apk/debug/app-debug.apk /tmp/$$/data_part/SoC_Client.apk
 		sync
 		umount /tmp/$$/data_part
 		rm -rf /tmp/$$/data_part
