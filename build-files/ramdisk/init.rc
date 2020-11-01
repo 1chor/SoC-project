@@ -552,12 +552,6 @@ on zygote-start && property:ro.crypto.state=encrypted && property:ro.crypto.type
     start zygote_secondary
 
 on boot
-    # start user script
-    # start logcat
-    chmod 0755 /data/startup.sh
-    #start sv_startup
-    exec_start sv_startup    
-
     # basic network init
     ifup lo
     hostname localhost
@@ -692,6 +686,10 @@ on property:vold.decrypt=trigger_shutdown_framework
 
 on property:sys.boot_completed=1
     bootchart stop
+    # start user script
+    chmod 0755 /data/startup.sh
+    #start sv_startup
+    exec_start sv_startup  
 
 # system server cannot write to /proc/sys files,
 # and chown/chmod does not work for /proc/sys/ entries.

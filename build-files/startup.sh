@@ -15,30 +15,11 @@ stop adbd
 setprop service.adp.tcp.port 5555
 start adbd
 
-#echo > /dev/kmsg # empty line
+echo > /dev/kmsg # empty line
 
-#echo "++ Loading vphy module ++" > /dev/kmsg
-#insmod /data/modules/xilinx-vphy.ko
-
-#echo > /dev/kmsg # empty line
-
-#echo "++ Loading clock module ++" > /dev/kmsg
-#insmod /data/modules/si5324.ko
-
-#echo > /dev/kmsg # empty line
-
-#echo "++ Loading HDMI I2c module ++" > /dev/kmsg
-#insmod /data/modules/dp159.ko
-
-#echo > /dev/kmsg # empty line
-
-#echo "++ Loading HDMI TX module ++" > /dev/kmsg
-#insmod /data/modules/xilinx-hdmi-tx.ko
-
-#echo > /dev/kmsg # empty line
-
-#echo "++ Loading HDMI RX module ++" > /dev/kmsg
-#insmod /data/modules/xilinx-hdmi-rx.ko
+-echo "++ List IP address ++" > /dev/kmsg
+echo "IPv4 address: " > /dev/kmsg
+ifconfig eth0 | grep 'inet addr' | cut -d: -f2 | cut -d" " -f1 > /dev/kmsg
 
 echo > /dev/kmsg # empty line
 
@@ -56,6 +37,9 @@ echo "++ Loading simple_filters module ++" > /dev/kmsg
 insmod /data/modules/simple_filters.ko
 
 echo > /dev/kmsg # empty line
+
+#remount filesystem rw
+mount -o remount,rw /
 
 echo "++ Starting Root client script ++" > /dev/kmsg
 sh /data/Root_Client.sh &

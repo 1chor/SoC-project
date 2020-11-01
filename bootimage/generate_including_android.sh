@@ -136,7 +136,7 @@ pretty_header "Modify ramdisk.img"
 cd build-files/ramdisk
 
 ./modify_ramdisk.sh extract
-cp init.rc ramdisk/init.rc
+cp init.rc ramdisk/
 mkdir -p ramdisk/lib/firmware
 ./modify_ramdisk.sh wrap
 cp uramdisk.img ../../bootimage/
