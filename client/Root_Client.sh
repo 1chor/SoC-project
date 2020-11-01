@@ -9,9 +9,9 @@ emptyhash="000000000000000000000000000000000000000000000000000000000000000000000
 # check if app is already installed
 is_installed=`pm list packages $package_name`
 if test -n "$is_installed"; then
-	# app is already installed
+	echo "app is already installed"
 else
-	# install app
+	echo "install app"
 	pm install $APK_file
 fi
 
