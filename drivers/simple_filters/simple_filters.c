@@ -48,6 +48,7 @@ static struct file *filp = NULL;
 static ssize_t proc_simple_filters_write(struct file *file, const char __user * buf, size_t count, loff_t * ppos)
 {	
 	char filename[64];
+	char *resultname = "/storage/emulated/0/SoC/filtered.bin\0";
 	mm_segment_t oldfs;
 	int ret;
 	u32 i;
@@ -102,6 +103,11 @@ static ssize_t proc_simple_filters_write(struct file *file, const char __user * 
 	ret = kernel_read(filp, &input, size_image, &filp->f_pos);
 	set_fs(oldfs);
 
+	//close file
+	if(filp > 0)
+		filp_close(filp, 0);
+	filp = NULL;
+	
 	if(size_image != ret)
 	{
 		printk("Could only read %u bytes, need %u\n",ret,size_image);
@@ -129,14 +135,15 @@ static ssize_t proc_simple_filters_write(struct file *file, const char __user * 
 		output[(4*i) + 2u] = (u8)(image_data_read[i] >> 8u);
 		output[(4*i) + 3u] = (u8)(image_data_read[i]);
 	}
-	
-	//got to begin of file
-	vfs_llseek(filp, 0, 0);
-
-	//wrtie to file
+		
+	//open file
 	oldfs = get_fs();
     set_fs(get_ds());
+    filp = filp_open(resultname, O_RDWR, 0);
+    
+	//write to file
 	ret = kernel_write(filp, &output, size_image, &filp->f_pos);
+
 	set_fs(oldfs);
 
 	//close file
