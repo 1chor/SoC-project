@@ -99,7 +99,7 @@ fi
 
 if [ ! -f android/device/xilinx/zcu102/sepolicy/sv_startup.te ]; then
 
-	pretty_header "Updating selinx policy files"
+	pretty_header "Updating selinux policy files"
 	
 	cd build-files/sepolicy
 	
@@ -108,7 +108,25 @@ if [ ! -f android/device/xilinx/zcu102/sepolicy/sv_startup.te ]; then
 	
 	cd ../..
 	
-	echo_green "Updating selinx policy files done"
+	echo_green "Updating selinux policy files done"
+fi
+
+########################################################################
+
+if [ ! -d android/packages/apps/SoC ]; then
+
+	pretty_header "Preparing client app"
+	
+	cd android
+	
+	mkdir packages/apps/SoC
+	cp ../client/app/build/outputs/apk/debug/app-debug.apk packages/apps/SoC/SoC_Client.apk
+	cp ../build-files/app/Android.mk packages/apps/SoC/
+	cp ../build-files/app/core.mk build/target/product/
+	
+	cd ..
+
+	echo_green "Preparing client app done"
 fi
 
 ########################################################################

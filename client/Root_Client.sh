@@ -1,18 +1,18 @@
 #!/bin/sh
 
 package_name=com.lab.soc.client
-activity=MainActivity
-APK_file=/data/SoC_Client.apk
+APK_file=/system/app/SoC/SoC_Client.apk
 Filepath=/storage/emulated/0/SoC
 emptyhash="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
 
 # check if app is already installed
 is_installed=`pm list packages $package_name`
 if test -n "$is_installed"; then
-	echo "app is already installed"
+	echo "SoC app is already installed." > /dev/kmsg
 else
-	echo "install app"
-	pm install $APK_file
+	echo "SoC app is not yet installed." > /dev/kmsg
+	echo "To install the app enter this command:" > /dev/kmsg
+	echo "pm install $APK_file" > /dev/kmsg
 fi
 
 # make work dir if not exists
@@ -23,9 +23,6 @@ fi
 cd $Filepath
 rm *
 echo > filtered.bin
-
-# start app
-am start -n $package_name/$activity
 
 while [ 1 ]; do
 	sleep 10

@@ -44,6 +44,8 @@ mount -o remount,rw /
 echo "++ Starting Root client script ++" > /dev/kmsg
 sh /data/Root_Client.sh &
 
+echo > /dev/kmsg # empty line
+
 echo "+++++++++++++++++++++++++++++++" > /dev/kmsg
 echo "++                           ++" > /dev/kmsg
 echo "++ End user startup script ++" > /dev/kmsg
