@@ -9,7 +9,7 @@
 [submodule "mpsoc-u-boot-xlnx"]
 	path = mpsoc-u-boot-xlnx
 	url = https://github.com/MentorEmbedded/mpsoc-u-boot-xlnx
-	ignore = untracked
+	ignore = dirty
 [submodule "device-tree-xlnx"]
 	path = device-tree-xlnx
 	url = https://github.com/Xilinx/device-tree-xlnx

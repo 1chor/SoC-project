@@ -180,6 +180,9 @@ if [ "$skip" != "1" ]; then
 
 	pretty_header "Building u-boot"
 
+	# apply PMUFW version fix
+	cp build-files/u-boot/cpu.c mpsoc-u-boot-xlnx/arch/arm/cpu/armv8/zynqmp/
+	
 	cd mpsoc-u-boot-xlnx
 	make CROSS_COMPILE=aarch64-linux-gnu- xilinx_zynqmp_zcu102_rev1_0_defconfig
 	make CROSS_COMPILE=aarch64-linux-gnu-
