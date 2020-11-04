@@ -214,9 +214,9 @@ echo_green "Generating Bitstreams done"
 pretty_header "Converting Bitstreams"
 
 cd hardware_design/generated_bitstreams
-bootgen -image blue_filter.bif -arch zynqmp -o ../../bootimage/bitstreams/blue_filter.bin -w
-bootgen -image green_filter.bif -arch zynqmp -o ../../bootimage/bitstreams/green_filter.bin -w
-bootgen -image red_filter.bif -arch zynqmp -o ../../bootimage/bitstreams/red_filter.bin -w
+bootgen -image blue_filter.bif -arch zynqmp -o ../../server/downloads/blue_filter.bin -w
+bootgen -image green_filter.bif -arch zynqmp -o ../../server/downloads/green_filter.bin -w
+bootgen -image red_filter.bif -arch zynqmp -o ../../server/downloads/red_filter.bin -w
 cd ../..
 
 echo_green "Converting Bitstreams"
