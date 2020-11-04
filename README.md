@@ -64,13 +64,29 @@
  These two scripts generate all the files necessary to start the system.
   
 ## Preparing SD Card
- Run the following script to prepare bootable SD card. 
+ Run the following script to prepare a bootable SD card. 
  Use the path to your SD card instead of `/dev/mmcblk0`. 
  ```shell
  $ cd WORKING_DIRECTORY
  $ sudo bootimage/mkSDcard.sh /dev/mmcblk0 populate
  ```
  
+## Using prebuilt image
+ If you do not want to build the entire system yourself, you can also us the prebuilt files in the `prebuilt` directory.
+ Enter the following commands to uncompress the files:
+ ```shell
+ $ cd WORKING_DIRECTORY/prebuilt
+ $ tar xf prebuilt.tar.xz
+ ```
+ 
+ ### Preparing SD Card with prebuilt files
+ To prepare a bootable SD card with the prebuilt files, run the script below.
+  Use the path to your SD card instead of `/dev/mmcblk0`. 
+ ```shell
+ $ cd WORKING_DIRECTORY
+ $ sudo prebuilt/mkSDcard.sh /dev/mmcblk0 populate
+ ```
+  
 ## Running the Build on the Xilinx ZCU102
  - Use default [ZCU102 User Guide](https://www.xilinx.com/support/documentation/boards_and_kits/zcu102/ug1182-zcu102-eval-bd.pdf) as a reference for switches and connectors location.
  - Set boot mode of the board to "SD Boot". 
