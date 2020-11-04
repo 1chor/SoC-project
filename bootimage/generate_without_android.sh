@@ -31,11 +31,6 @@ if [ "$1" == "clean" ]; then
 	make distclean
 	cd ..
 	
-	#hdmi-modules
-	cd hdmi-modules
-	make clean
-	cd ..
-	
 	#kernel modules for PL devices
 	for driver in ./drivers/*/
 	do
@@ -157,18 +152,6 @@ if [ "$skip" != "1" ]; then
 		cd ../..
 	done
 	cp ./drivers/*/*.ko bootimage/modules
-
-	echo_blue "Compiling hdmi modules"
-	cd hdmi-modules
-	export KERNEL_SRC=../mpsoc-linux-xlnx
-	export SRC=.
-	make all
-	cp hdmi/xilinx-vphy.ko ../bootimage/modules
-	cp hdmi/xilinx-hdmi-tx.ko ../bootimage/modules
-	cp hdmi/xilinx-hdmi-rx.ko ../bootimage/modules
-	cp misc/dp159.ko ../bootimage/modules
-	cp clk/si5324.ko ../bootimage/modules
-	cd ..
 
 	echo_green "Compiling kernel modules for PL devices done"
 
