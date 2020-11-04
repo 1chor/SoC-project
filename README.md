@@ -40,7 +40,6 @@
  ├── device-tree-xlnx 		# contains device-tree files
  ├── drivers 			# contains kernel modules for custom hardware components
  ├── hardware_design		# contains the hardware design
- ├── hdmi-modules		# contains hdmi kernel modules
  ├── mpsoc-linux-xlnx		# contains kernel files
  ├── mpsoc-u-boot-xlnx		# contains u-boot files
  ├── prebuilt			# contains prebuilt files ready to use
@@ -50,11 +49,10 @@
  
 ## Project progress
  - [X] Make Android bootable
- - [ ] Enable HDMI output 
  - [X] Add custom hardware
  - [X] Enable dynamic partial reconfiguration
- - [ ] Customize the Android app and make it work
- - [ ] Add server and make it work
+ - [X] Customize the Android app and make it work
+ - [X] Add server and make it work
  
 ## Building the code
  There are two script files in the bootimage directory:
@@ -68,7 +66,6 @@
 ## Preparing SD Card
  Run the following script to prepare bootable SD card. 
  Use the path to your SD card instead of `/dev/mmcblk0`. 
-
  ```shell
  $ cd WORKING_DIRECTORY
  $ sudo bootimage/mkSDcard.sh /dev/mmcblk0 populate
@@ -78,7 +75,7 @@
  - Use default [ZCU102 User Guide](https://www.xilinx.com/support/documentation/boards_and_kits/zcu102/ug1182-zcu102-eval-bd.pdf) as a reference for switches and connectors location.
  - Set boot mode of the board to "SD Boot". 
  - Insert SD card to the board.
- - Connect external monitor using HDMI. Please note that HDMI must be connected before board power-on.
+ - Connect external monitor using DisplayPort. Please note that DP must be connected before board power-on.
  - Connect USB mouse and USB keyboard using USB hub as shown below.
  - Power on the board
  <p align="center">
@@ -88,9 +85,31 @@
 ## Server API
 ### Installing packages
   To start the server API, the following packages must be installed:
-
 ```shell
   $ sudo apt install python3 python3-pip python3-flask
   $ pip install flask-restful  
 ```
-Execute the script `run_server.sh` to start the server. You will be asked to enter your IP address under which the server will be hosted.
+
+### Running the server API
+Run the following script to start the server. You will be asked to enter your IP address under which the server will be hosted.
+```shell
+  $ cd WORKING_DIRECTORY/server
+  $ ./run_server.sh.sh 
+```
+
+## Client application
+The client application is preinstalled on the Android.
+
+### Running the client application
+When the app is opened the following screen is displayed:
+<p align="center">
+<img src="./report/images/client_screen.png" width="600">
+</p>
+
+- Enter the server IP address in the textview (Enter server IP address:).
+- When the button "USE FILTER" is pressed, the generated bitmap is applied to the filter.
+  - The results are shown in the imageview.
+- When the button "CONNECT" is pressed, the client connects to the server and checks whether updates are available.
+  - If updates are available, they will be downloaded.
+  - The checksum of the partial bitstream is checked with the implemented blake2b (hash function).
+  - If the checksum is correct, the new partial bitstream is implemented.
