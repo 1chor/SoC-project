@@ -1,7 +1,7 @@
 #!/bin/sh
 
 package_name=com.lab.soc.client
-APK_file=/system/app/SoC/SoC_Client.apk
+APK_file=/system/app/SoC/SoC.apk
 Filepath=/storage/emulated/0/SoC
 emptyhash="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
 
