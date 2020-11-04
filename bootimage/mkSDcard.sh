@@ -214,7 +214,6 @@ if [ $populate ]; then
 		mkdir -p /tmp/$$/data_part/modules
 		cp -rfv modules/*.ko /tmp/$$/data_part/modules/
 		cp -rfv ../client/Root_Client.sh /tmp/$$/data_part/
-		cp -rfv ../client/app/build/outputs/apk/debug/app-debug.apk /tmp/$$/data_part/SoC_Client.apk
 		sync
 		umount /tmp/$$/data_part
 		rm -rf /tmp/$$/data_part
