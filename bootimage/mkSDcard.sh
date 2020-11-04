@@ -17,7 +17,7 @@ function pretty_header() {
 function usage () {
 	echo_red "Usage: $0 /dev/diskname [populate/eject/help]"
 	echo 
-	echo_red "populate   - The BOOT partition will be populated with data"
+	echo_red "populate   - The partitions will be populated with data"
 	echo 
 	echo_red "eject      - The SD card will be ejected automatically"
 	echo 
