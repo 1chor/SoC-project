@@ -1,0 +1,67 @@
+The Digilent ZedBoard is a developement Platform for the Xilinx Zynq \gls{soc}.
+It features a dual-core ARM Cortex-A9 MPCore with a clock-frequency of up to
+$866 Mhz$, external memory support, USB and Gigabit Ethernet interfaces as
+\gls{ps} and \gls{pl} based on the Xilinx Artix-7 \gls{fpga} series.
+The \gls{pl} can be used stand-alone, but the \gls{ps} is dependent on the
+\gls{pl}.
+
+For this project, the \gls{pl} needs to be configured with peripherals for the
+processor that are needed by the Linux kernel as well as the hardware
+accelerators.
+The resulting system must then be partitioned for the dynamic partial
+reconfiguration.
+This is discussed in \Cref{ssec:zynqhardwaredesign}.
+
+The \gls{ps} needs to be configured with all the software that Android needs to
+boot, to interact with the hardware accelerators and to dynamically reconfigure
+the \gls{pl}.
+This is done in \Cref{ssec:zynqsoftwaredesign}.
+
+The complete design is available as a git repository at~\cite{repo}.
+File paths within this document may refer to the root directory of the git
+repository by using \emph{<repo>}.
+To interact with the ZedBoard, multiple interfaces are used:
+\begin{itemize}
+	\item A command line interface is available over an \gls{uart} interface
+	\item Ethernet is used to access the internet
+	\item Graphical output is available over a \gls{hdmi}
+	\item Peripherals can be attached via \gls{otg}
+\end{itemize}
+To achieve the best android experience, a touchscreen is attached via \gls{hdmi}
+(for graphics) and \gls{otg} (for the \gls{hid}).
+
+To automate the extensive build process, two scripts are available in our git
+repository.
+\emph{<repo>/bootimage/generate\_without\_android.sh} compiles the bitstream,
+\gls{fsbl}, u-boot, the linux kernel and the kernel modules.
+Android is built seperately, since it requires a special build environment that
+not all members of the team had access to.
+To build android, the script
+\emph{<repo>/bootimage/generate\_including\_android.sh} can be executed.
+
+Both scripts rely on makefiles of the underlying components they are building.
+This means that components that were not changed since the last build are not
+going to be recompiled.
+This saves build time during development.
+\subsection{Zynq Hardware Design}\label{ssec:zynqhardwaredesign}
+\input{sections/methodology/zynqhardwaredesign}
+\subsubsection{Blake2B Module}\label{sssec:blake2bmodule}
+\input{sections/methodology/blake2bmodule}
+\subsubsection{Image Processing Module}\label{sssec:imageprocessingmodule}
+\input{sections/methodology/imageprocessingmodule}
+\subsubsection{Partial Reconfiguration Setup}\label{sssec:partialreconfigurationsetup}
+\input{sections/methodology/partialreconfigurationsetup}
+\subsection{Zynq Software Design}\label{ssec:zynqsoftwaredesign}
+\input{sections/methodology/zynqsoftwaredesign}
+\subsubsection{Linux on ZedBoard}\label{sssec:linuxonzedboard}
+\input{sections/methodology/linuxzedboard}
+\subsubsection{Android on ZedBoard}\label{sssec:androidonzedboard}
+\input{sections/methodology/androidzedboard}
+\subsubsection{Linux Kernel Modules}\label{sssec:linuxkernelmodules}
+\input{sections/methodology/linuxkernelmodules}
+\subsection{Image Processing App}\label{sssec:imageprocessingapp}
+\input{sections/methodology/imageprocessingapp}
+\subsection{Setup}\label{ssec:setup}
+\input{sections/methodology/setup}
+\subsubsection{Dynamic Partial Reconfiguration in Android}\label{sssec:dynamicpartialreconfiguration}
+\input{sections/methodology/partialreconfiguration}

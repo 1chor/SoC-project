@@ -1,0 +1,67 @@
+Android Gingerbread on ZedBoard was officially supported by Xilinx partner
+company Iveia, unfortunately it is not any more and they do not longer provide
+android sources. Thankfully, a github user made the Iveia sources available by
+uploading them~\cite{androidsource}.
+
+Android Gingerbread requires a very delicate build environment:
+\begin{itemize}
+	\item Ubuntu 12.04 LTS host operating system
+	\item make version 3.81
+	\item gcc, g++ and cpp version 4.4
+	\item Java JDK 1.6 from Oracle (the OpenJDK version is not suitable)
+	\item The following packages available from the Ubuntu repositories:
+		apt-get install libgtk2.0-0:i386 libxtst6:i386 gtk2-engines-murrine:i386
+		lib32stdc++6 libxt6:i386 libdbus-glib-1-2:i386 libasound2:i386 fakeroot
+		build-essential crash kexec-tools makedumpfile kernel-wedge git-core
+		libncurses5 libncurses5-dev libelf-dev asciidoc binutils-dev curl
+		gcc-4.4 g++-4.4 cpp-4.4 gcc-4.4-multilib g++-4.4-multilib cpp-4.4
+		ia32-libs openjdk-6-jdk:i386 vim gnupg flex bison gperf build-essential
+		zip curl libc6-dev x11proto-core-dev libx11-dev:i386
+		libreadline6-dev:i386 libgl1-mesa-glx:i386 libgl1-mesa-dev g++-multilib
+		mingw32 tofrodos python-markdown libxml2-utils xsltproc zlib1g-dev:i386
+		gnupg flex bison gperf build-essential zip curl libc6-dev
+		lib32ncurses5-dev x11proto-core-dev libx11-dev:i386
+		libreadline6-dev:i386 libgl1-mesa-glx:i386 libgl1-mesa-dev
+		g++-multilib mingw32 tofrodos python-markdown libxml2-utils xsltproc
+		zlib1g-dev:i386 genext2fs lib32z1-dev
+	\item The repo tool (a wrapper around git), available from\\
+		\url{http://commondatastorage.googleapis.com/git-repo-downloads/repo}
+\end{itemize}
+The build process can be seen in \Cref{lst:androidbuild}.
+\begin{lstlisting}[
+	language=Bash,
+	caption={Retrieve and build android},
+	label={lst:androidbuild},
+	basicstyle=\small,
+	float=h,
+	floatplacement=h
+	]
+repo init -u git://github.com/aimeemikaelac/xilinx-android-manifest.git -b android-zynq-1.0(*@\label{lst:androidret1}@*)
+repo sync(*@\label{lst:androidret2}@*)
+
+. build/envsetup.sh(*@\label{lst:androidenv1}@*)
+lunch generic-eng(*@\label{lst:androidenv2}@*)
+
+
+make -j32(*@\label{lst:androidmake1}@*)
+make -f Makefile.zynq(*@\label{lst:androidmake2}@*)
+
+mkdir -p root(*@\label{lst:touchcopy1}@*)
+sudo mount root.img -o loop,rw,sync root
+sudo mkdir -p root/system/usr/idc/
+sudo cp <repo>linux-files/touchscreen_config.idc root/system/usr/idc/Vendor_222a_Product_0001.idc
+#sudo cp <repo>/linux-files/touchscreen_config.idc "root/system/usr/idc/ILITEK ILITEK-TP.idc"
+sudo chmod 664 root/system/usr/idc/*.idc
+sleep 1
+sudo umount root
+sleep 1
+rmdir root(*@\label{lst:touchcopy2}@*)
+\end{lstlisting}
+In \Crefrange{lst:androidret1}{lst:androidret2} the source code is retrieved.
+\Crefrange{lst:androidenv1}{lst:androidenv2} setup the environment and
+\Crefrange{lst:androidmake1}{lst:androidmake2} builds the system.
+The result is a bootable image called `root.img'.
+
+This image then needs to be mounted, so we can copy the touchscreen
+configuration file to it. This is done in
+\Crefrange{lst:touchcopy1}{lst:touchcopy2}.

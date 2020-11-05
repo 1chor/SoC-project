@@ -1,0 +1,31 @@
+The branch of the Linux kernel provided by Digilent \cite{DigilentLinux} already included a device driver for partial reconfiguration.
+
+Before the driver can be used, it must be set up during the boot routine. \Cref{lst:setuppr} shows how to set up the device driver. In \Cref{lst:ispart} the flag for partial reconfiguration is set.
+
+\begin{lstlisting}[
+language=Bash,
+caption={Setup partial reconfiguration driver},
+label={lst:setuppr},
+basicstyle=\small,
+float=h,
+floatplacement=h
+]
+echo "++ Adding partial reconfiguration device node"
+mknod /dev/xdevcfg c 259 0
+echo "1" > /sys/devices/axi.0/f8007000.devcfg/is_partial_bitstream(*@\label{lst:ispart}@*)
+\end{lstlisting}
+
+From Android, \gls{dpr} can be easily done by sending the partial bitstream to the device driver. \Cref{lst:prandroid} shows how this is implemented.
+
+\begin{lstlisting}[
+language=Bash,
+caption={Partial reconfiguration out of Android},
+label={lst:prandroid},
+basicstyle=\small,
+float=h,
+floatplacement=h
+]
+cat new_bitstream.bin > /dev/xdevcfg
+\end{lstlisting}
+
+After the reconfiguration is completed, the new logic part can be used.

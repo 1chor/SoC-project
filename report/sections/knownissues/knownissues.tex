@@ -1,0 +1,75 @@
+The presented implementation is far from perfect.
+Issues faced during development that could not be fixed during the course of the
+project are presented in this section.
+\subsection{Android Version}\label{ssec:issueandroidversion}
+Android Gingerbread (2.3.7) was released on December 6\textsuperscript{th} 2010,
+more than 8 years ago at the time of writing this document.
+9 major versions were released since then.
+Unfortunately, the ZedBoard does not have the hardware requirements for more
+recent version (little RAM and no dedicated \gls{gpu}).
+Although, the higher-range Zynq chips do have the requirements to run the most
+up to date versions and Mentor Embedded even provides support for Android 6
+(Marshmallow), 7 (Nougat) and 8 (Oreo).
+The same methodology as we presented could be employed on those higher range
+devices.
+The Mentor Embedded distribution was tested on the Zynq zcu102 developement
+board and was proven to be working.
+That distribution does not include a hardware design (the bitstream is
+distributed in binary format) and therefore not allow to alter the logic fabric
+on the \gls{fpga}.
+One could create a custom hardware design, but that task was deemed to be too
+time consuming considering the deadline for this project.
+
+Noritsuna Imamura managed to get Android 5.0 running on the
+ZedBoard~\cite{noritsuna}.
+A linux swap partition was used to extend the RAM.
+Noritsuna states that his system is very slow.
+This is most probably due to the fact that it still uses software rendering and
+that the swap partition lies on the SD card and is therefore very slow.
+Nevertheless we tried to replicate his project but did not manage to do so.
+All the parts build without errors, but the system does not boot.
+Noritsuna has not configured the kernel to have a terminal console over the
+\gls{uart} interface, so we had no lead on where to start debugging.
+
+\subsection{Touchscreen Input}\label{ssec:issuetouchscreen}
+The touchscreen is not working in the current design.
+After configuring the kernel to support single- and multitouch devices and
+creating a \gls{idc}, the device is detected in Linux and input-events are sent
+to android.
+Due to unknown reasons, the events are never processed by the Android \gls{gui}.
+
+We observed the following:
+\begin{itemize}
+	\item The device is recognized with all it's features by Android's built-in
+		\emph{getevent} utility
+	\item Events are registered by Android's built-in \emph{getevent} utility
+	\item The translation from touch- to screen-coordinates works as designed
+	\item Android's \emph{InputReader.cpp} detects the device, creates an
+		appropriate event handler and reacts to events
+	\item When configured as multi-touch device, the events are not dispatched
+		to the \gls{gui}, because of the touchscreen never sending
+		\emph{SYN\_MT\_REPORT} messages.
+		This could be amended by patching the \emph{InputReader.cpp} to react to
+		\emph{KEY\_MT\_SLOT} messages instead.
+		This was not tried because it seems like even if the events are
+		dispatched, they are not picked up by the \gls{gui} (see next point).
+	\item When configured as single-touch device, the events are dispatched to
+		the \gls{gui}, but for unknown reasons they are never picked up.
+		They are handed over from native code to Android's Dalvik Java \gls{vm}
+		but never make it to the Java Input Queue in\\
+		(\emph{<repo>/android/frameworks/base/core/java/android/view})
+	\item We built \emph{tslib}, a cross-platform library that provides access
+		to touchscreens for Android.
+		This library contains a calibration utility.
+		That utility kills the Android \gls{gui} and creates a minimal \gls{gui}
+		by itself.
+		Even when started from Android, the utility recognizes all touches
+		correctly.
+		This suggests the issue lies within how the Android \gls{gui} reacts to
+		events and that the touchscreen driver is working fine
+	\item Android Gingerbread has support for mice connected via \gls{otg}.
+		We observed that this is not working either.
+		The behavior is much the same as with the touch-screen in single-touch
+		configuration.
+		Events are detected but not handled by the \gls{gui}.
+\end{itemize}

@@ -1,0 +1,53 @@
+Partial reconfiguration was done using the planAhead tool included in the Xilinx ISE Design Suite. Compared to the Vivado Design Suite, where \gls{dpr} works with the \gls{vhdl} files, the planAhead tool only works with the synthesized netlists.
+
+For \gls{dpr} a Bottom-Up Synthesis is required. The static logic is synthesized with a black box module definition for each \gls{dpr} module.
+
+The synthesis is done inside the script\\\emph{<repo>/bootimage/generate\_without\_android.sh}. Since the netlists for the different filter logics are not synthesized with the flow, they must be generated separately. Both is done with the following lines: 
+
+\begin{lstlisting}[
+	language=Bash,
+	caption={Synthesis for project},
+	label={lst:makenetlist},
+	basicstyle=\small,
+	float=h,
+	floatplacement=h
+	]
+make -f system.make netlist
+# generate netlists for filter logic
+xst -ifn synth_filter_logic.xst
+\end{lstlisting}
+
+Xilinx provides a tutorial \cite{planAheadTutorial} that describes how the \gls{dpr} is done with the planAhead tool. First, the \gls{gui} based design was used to create the bitstreams. Afterwards a \gls{tcl} script, \emph{<repo>/hardware_design/planAhead.tcl}, was implemented with the included \gls{tcl} console. This script automatically generates the bitstreams used for partial reconfiguration. \Cref{lst:runplanahead} shows how the planAhead tool can be started in \gls{tcl} mode and start the script.
+
+\begin{lstlisting}[
+language=Bash,
+caption={Run planAhead in \gls{tcl} mode},
+label={lst:runplanahead},
+basicstyle=\small,
+float=h,
+floatplacement=h,
+breaklines=true
+]
+planAhead -mode tcl -source planAhead.tcl
+\end{lstlisting}
+
+In our project $6$ bitstreams are generated:
+\begin{itemize}
+	\item $3$ full bitstreams with different filter logic
+	\item $3$ partial bitstreams with different filter logic
+\end{itemize}
+
+Before the partial bitstreams can be used, they need to be transformed into an other format. With the following lines the bitstreams are converted:
+
+\begin{lstlisting}[
+language=Bash,
+caption={Convert bitstreams into binary files},
+label={lst:convertbit},
+basicstyle=\small,
+float=h,
+floatplacement=h
+]
+promgen -b -w -p bin -data_width 32 -u 0 ./planAhead/partial_reconfiguration/partial_reconfiguration.runs/config_1/config_1_simple_filter_0_simple_filter_0_USER_LOGIC_I_filter_logic_0_red_filter_partial.bit -o ./planAhead/generated_Bitstreams/red_filter.bin
+promgen -b -w -p bin -data_width 32 -u 0 ./planAhead/partial_reconfiguration/partial_reconfiguration.runs/config_2/config_2_simple_filter_0_simple_filter_0_USER_LOGIC_I_filter_logic_0_green_filter_partial.bit -o ./planAhead/generated_Bitstreams/green_filter.bin
+promgen -b -w -p bin -data_width 32 -u 0 ./planAhead/partial_reconfiguration/partial_reconfiguration.runs/config_3/config_3_simple_filter_0_simple_filter_0_USER_LOGIC_I_filter_logic_0_blue_filter_partial.bit -o ./planAhead/generated_Bitstreams/blue_filter.bin
+\end{lstlisting}
