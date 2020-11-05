@@ -80,10 +80,10 @@ Example JSON object:
 
 If there is a new version available, the Network Manager will download the new bitstream from the sever using the REST API (see server section). The Fabric Manager will then calculate the hash from the bitstream file on the programmable logic. If they match, the PL fabric will be reconfigured with the downloaded bitstream. In a real world scenario, the whole process would run in the background without user interference. For demonstration purposes a simple user interface was implemented to trigger the download and apply filters on a test picture.
 
-\begin{figure}[h]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=1\textwidth]{sections/methodology/clientdownload.png}
-\caption{\label{fig:gic} user interface}
+\caption{\label{fig:gui} user interface}
 \end{figure}
 
 To apply filters the app has to pre process the image for the device driver to the following specification:
@@ -108,10 +108,10 @@ Open http://*your ip*:5000 to see if the server is reachable
 
 Insomnia, a free open source REST client available for Mac,Windows and Linux, was used for API testing and server communication.
 
-\begin{figure}[h]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=1\textwidth]{sections/methodology/insomnia.png}
-\caption{\label{fig:gic2} Insomnia}
+\caption{\label{fig:insomnia} Insomnia}
 \end{figure}
 
 

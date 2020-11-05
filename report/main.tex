@@ -99,12 +99,6 @@
 %
 %----------------------------------------------------------------------------
 %
-
-\newcommand{\todo}[1]{\textcolor{red}{#1}}
-\newcommand{\done}[1]{}
-%
-%----------------------------------------------------------------------------
-%
 % Tables
 %
 \usepackage{tabularx}
@@ -126,6 +120,16 @@
 % Clever references
 %
 \usepackage{cleveref}
+%
+%
+%----------------------------------------------------------------------------
+%
+%
+% ToDo notes
+%
+\usepackage{todonotes} % to disable the todonotes uncomment line below
+%\usepackege[disable]{todonotes}
+\newcommand{\note}[1]{\todo[inline,linecolor=red,backgroundcolor=yellow!25,bordercolor=black]{AD: #1}}
 %
 %
 %----------------------------------------------------------------------------
@@ -170,22 +174,18 @@
 
 \title{Dynamic Partial Reconfiguration on an IOT device\\
 \vspace{1em}
-Android on zynq featuring updateable FPGA-accellerated image processing improvemed }
+Android on Zynq featuring updatable FPGA-accellerated image processing \\ improved version }
 
-\author{Andreas \textsc{Dejmek}\\ Christoph \textsc{Grafl} \\
-	Florian \textsc{Muttenthaler} \\ Benedikt \textsc{Tutzer}}
+\author{Andreas \textsc{Dejmek}}
 
-\date{Winter-Term 2018/2019}
+\date{Summer-Term 2020}
 \begin{document}
 \maketitle
 \begin{center}
 	Supervised by:
 
-	Nahla \textsc{El-Araby}
-
-	and
-
 	Nima \textsc{Taherinejad}
+	
 \end{center}
 \begin{abstract}
 	Hardware products are hard to update after they have been shipped.
@@ -200,21 +200,22 @@ Android on zynq featuring updateable FPGA-accellerated image processing improvem
 	Applying dynamic partial reconfiguration to high level designs is not
 	trivial.
 	%
-	We show how this can be done using the example of a Zedboard running the
+	We show how this can be done using the example of a Xilinx Zynq UltraScale+ MPSoC ZCU102 Evaluation Kit running the
 	Android Operating System on it's integrated ARM cores and some image
 	processing filters on the programmable logic.
 	%
-	We found that many customizations have to be made to the Linux kernel
+	We found that many customisation have to be made to the Linux kernel
 	and the Android operating system.
 	The choice of hardware restricted us to the use of outdated tools that
-	made developement difficult.
+	made development difficult.
 	%
 	The methods can be applied to more state of the art chips to obtain
-	powerfull consumer multimedia devices with updatable hardware
-	accellerators.
+	powerful consumer multimedia devices with updatable hardware
+	accelerators.
+	\note{reword for new project}
 \end{abstract}
 \begin{center}
-	Submitted in the "System on Chip Design"\\Laboratory at TU Wien
+	Submitted in the "System on Chip Advanced Course" at TU Wien
 
 %	\vspace{1em}
 
