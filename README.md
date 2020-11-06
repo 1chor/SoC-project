@@ -119,7 +119,7 @@ The client application is preinstalled on the Android.
 ### Running the client application
 When the app is opened the following screen is displayed:
 <p align="center">
-<img src="https://github.com/1chor/SoC-project_report/blob/main/images/client_screen.png" width="600">
+<img src="https://github.com/1chor/SoC-project_report/blob/main/images/client-screen.png" width="600">
 </p>
 
 - Enter the server IP address in the textview (Enter server IP address:).
