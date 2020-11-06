@@ -18,3 +18,6 @@
 	path = hdmi-modules
 	url = https://github.com/Xilinx/hdmi-modules/
 	ignore = untracked
+[submodule "report"]
+	path = report
+	url = https://github.com/1chor/SoC-project_report
